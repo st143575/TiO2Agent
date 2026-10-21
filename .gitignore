@@ -1,0 +1,6 @@
+.DS_Store
+pyproject.toml
+.python-version
+uv.lock
+data/*
+!data/.gitkeep
