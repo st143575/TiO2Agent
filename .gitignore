@@ -2,5 +2,7 @@
 pyproject.toml
 .python-version
 uv.lock
-data/*
-!data/.gitkeep
+.env
+data/samples/*
+!data/samples/.gitkeep
+.vscode/
