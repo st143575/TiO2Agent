@@ -44,17 +44,12 @@ class ParseStage:
                 ctx.warn("PAGE_EXTRACT_FAILED", f"第 {number} 页文本提取失败：{exc}", page=number)
 
             char_count = len("".join(text.split()))
-            if char_count < self.min_chars_per_page:
-                ctx.warn(
-                    "LOW_TEXT_PAGE",
-                    f"第 {number} 页仅提取到 {char_count} 个字符，可能是扫描页，需要 OCR",
-                    page=number,
-                )
             pages.append(
                 {
                     "page": number,
                     "text": text,
                     "char_count": char_count,
+                    "low_text": char_count < self.min_chars_per_page,
                     "images": _list_images(page),
                 }
             )

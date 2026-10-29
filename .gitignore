@@ -6,3 +6,12 @@ uv.lock
 data/samples/*
 !data/samples/.gitkeep
 .vscode/
+tests/
+!tests/.gitkeep
+docs/
+!docs/.gitkeep
+scripts/
+!scripts/.gitkeep
+Dockerfile
+.dockerignore
+compose.yaml

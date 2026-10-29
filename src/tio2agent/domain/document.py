@@ -20,6 +20,7 @@ class DocumentStatus(StrEnum):
     
     QUEUED = "queued"
     PARSING = "parsing"
+    OCR = "ocr"
     STRUCTURING = "structuring"
     INDEXING = "indexing"
     EXTRACTING = "extracting"
@@ -50,8 +51,8 @@ class DocType(StrEnum):
 class OcrMode(StrEnum):
     """Possible OCR modes for document processing."""
     
-    AUTO = "auto"    # OCR only image regions / low-text pages
-    FORCE = "force"  # OCR every page
+    AUTO = "auto"    # large embedded images (tables/figures) and pages without a text layer
+    FORCE = "force"  # every embedded image that is not a tiny decoration
     OFF = "off"
 
 

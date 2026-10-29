@@ -1,10 +1,16 @@
 """Application settings, read from environment variables (prefix TIO2_) or a .env file."""
 
+from enum import StrEnum
 from functools import lru_cache
 from pathlib import Path
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class OcrBackend(StrEnum):
+    NONE = "none"                # no OCR service; image regions are reported as warnings
+    PADDLEOCR_VL = "paddleocr_vl"  # PaddleOCR-VL pipeline service (POST /layout-parsing)
 
 
 class Settings(BaseSettings):
@@ -25,6 +31,11 @@ class Settings(BaseSettings):
 
     # Background ingestion
     ingest_workers: int = Field(2, ge=1)
+
+    # OCR for image regions and scanned pages (off by default, so no GPU is needed)
+    ocr_backend: OcrBackend = OcrBackend.NONE
+    ocr_base_url: str = "http://localhost:8080"
+    ocr_timeout_s: float = Field(300.0, gt=0)
 
     @property
     def max_upload_bytes(self) -> int:

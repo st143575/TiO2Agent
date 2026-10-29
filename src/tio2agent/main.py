@@ -16,6 +16,7 @@ from tio2agent.api.middleware import UploadSizeLimitMiddleware
 from tio2agent.api.routes import documents, health
 from tio2agent.config import Settings, get_settings
 from tio2agent.ingestion import DocumentService, IngestionPipeline, IngestionRunner
+from tio2agent.ingestion.ocr import OcrEngine, build_ocr_engine
 from tio2agent.ingestion.stages import default_stages
 from tio2agent.storage import DocumentRepository, FileStore
 
@@ -37,11 +38,17 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     if stale:
         logger.info("removed %d stale temp uploads", stale)
 
+    ocr_engine: OcrEngine | None = app.state.ocr_engine_override or build_ocr_engine(settings)
+    if ocr_engine is None:
+        logger.info("OCR disabled (TIO2_OCR_BACKEND=none); image regions will be reported as warnings")
+    else:
+        logger.info("OCR enabled: %s", ocr_engine.name)
+
     pipeline = IngestionPipeline(
         repo,
         raw_path_for=file_store.path_for,
         processed_dir=settings.processed_dir,
-        stages=default_stages(),
+        stages=default_stages(ocr_engine=ocr_engine),
     )
     runner = IngestionRunner(pipeline, max_workers=settings.ingest_workers)
     service = DocumentService(repo=repo, file_store=file_store, runner=runner, settings=settings)
@@ -56,9 +63,11 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     finally:
         runner.shutdown(wait=False)
         repo.close()
+        if ocr_engine is not None:
+            ocr_engine.close()
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+def create_app(settings: Settings | None = None, *, ocr_engine: OcrEngine | None = None) -> FastAPI:
     settings = settings or get_settings()
     app = FastAPI(
         title=settings.app_name,
@@ -67,6 +76,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=lifespan,
     )
     app.state.settings = settings
+    # ``ocr_engine`` overrides the engine built from settings (tests)."""
+    app.state.ocr_engine_override = ocr_engine
 
     app.add_middleware(
         UploadSizeLimitMiddleware,
