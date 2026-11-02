@@ -13,13 +13,13 @@ from fastapi import FastAPI
 from tio2agent import __version__
 from tio2agent.api.errors import register_exception_handlers
 from tio2agent.api.middleware import UploadSizeLimitMiddleware
-from tio2agent.api.routes import documents, health
+from tio2agent.api.routes import documents, health, search
 from tio2agent.config import Settings, get_settings
 from tio2agent.ingestion import DocumentService, IngestionPipeline, IngestionRunner
 from tio2agent.ingestion.chunking import ChunkingOptions
 from tio2agent.ingestion.ocr import OcrEngine, build_ocr_engine
 from tio2agent.ingestion.stages import default_stages
-from tio2agent.retrieval import Embedder, SearchService, build_embedder
+from tio2agent.retrieval import Embedder, Reranker, SearchService, build_embedder, build_reranker
 from tio2agent.storage import ChunkRepository, DocumentRepository, FileStore
 
 logger = logging.getLogger(__name__)
@@ -66,7 +66,16 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     service.add_cleanup_hook(lambda record: chunk_repo.delete_document(record.id))
     app.state.document_service = service
     app.state.chunk_repo = chunk_repo
-    app.state.search_service = SearchService(chunk_repo, embedder, rrf_k=settings.search_rrf_k)
+    reranker: Reranker | None = app.state.reranker_override or build_reranker(settings)
+    logger.info("reranking: %s", reranker.model if reranker else "disabled (fused order)")
+    app.state.search_service = SearchService(
+        chunk_repo,
+        embedder,
+        reranker,
+        rrf_k=settings.search_rrf_k,
+        rerank_candidates=settings.rerank_candidates,
+        rerank_max_chars=settings.rerank_max_chars,
+    )
 
     recovered = service.recover_unfinished()
     if recovered:
@@ -82,6 +91,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             ocr_engine.close()
         if embedder is not None:
             embedder.close()
+        if reranker is not None:
+            reranker.close()
 
 
 def create_app(
@@ -89,6 +100,7 @@ def create_app(
     *, 
     ocr_engine: OcrEngine | None = None, 
     embedder: Embedder | None = None,
+    reranker: Reranker | None = None,
 ) -> FastAPI:
     settings = settings or get_settings()
     app = FastAPI(
@@ -100,6 +112,7 @@ def create_app(
     app.state.settings = settings
     app.state.ocr_engine_override = ocr_engine
     app.state.embedder_override = embedder
+    app.state.reranker_override = reranker
 
     app.add_middleware(
         UploadSizeLimitMiddleware,

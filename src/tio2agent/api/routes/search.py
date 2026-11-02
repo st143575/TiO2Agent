@@ -18,5 +18,12 @@ def search(
     service: Annotated[SearchService, Depends(get_search_service)],
 ) -> SearchResponse:
     top_k = body.top_k or request.app.state.settings.search_top_k
-    result = service.search(body.query, top_k=top_k, doc_ids=body.doc_ids, kinds=body.kinds, mode=body.mode)
+    result = service.search(
+        body.query, 
+        top_k=top_k, 
+        doc_ids=body.doc_ids, 
+        kinds=body.kinds, 
+        mode=body.mode, 
+        rerank=body.rerank,
+    )
     return SearchResponse.from_result(result)

@@ -12,6 +12,7 @@ class SearchRequest(BaseModel):
     doc_ids: list[str] | None = None
     kinds: list[ChunkKind] | None = None
     mode: SearchMode = SearchMode.HYBRID
+    rerank: bool | None = Field(None, description="默认：配置了重排序服务就重排；true/false 强制开关")
 
 
 class ChunkOut(BaseModel):
@@ -55,6 +56,8 @@ class SearchHitOut(BaseModel):
     vector: float | None
     bm25_rank: int | None
     vector_rank: int | None
+    fused_rank: int | None
+    rerank: float | None
     also_in: list[str]
     chunk: ChunkOut
 
@@ -67,6 +70,8 @@ class SearchHitOut(BaseModel):
             vector=None if h.vector is None else round(h.vector, 4),
             bm25_rank=h.bm25_rank,
             vector_rank=h.vector_rank,
+            fused_rank=h.fused_rank,
+            rerank=None if h.rerank is None else round(h.rerank, 4),
             also_in=h.also_in,
             chunk=ChunkOut.from_chunk(h.chunk),
         )
@@ -77,6 +82,7 @@ class SearchResponse(BaseModel):
     normalized_query: str
     mode_requested: SearchMode
     mode_used: SearchMode
+    reranked: bool
     hits: list[SearchHitOut]
     warnings: list[str]
 
@@ -87,6 +93,7 @@ class SearchResponse(BaseModel):
             normalized_query=r.normalized_query,
             mode_requested=r.mode_requested,
             mode_used=r.mode_used,
+            reranked=r.reranked,
             hits=[SearchHitOut.from_hit(i, h) for i, h in enumerate(r.hits, start=1)],
             warnings=r.warnings,
         )

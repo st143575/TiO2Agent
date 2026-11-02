@@ -21,6 +21,7 @@ from tio2agent.domain import Chunk, ChunkKind
 from tio2agent.ingestion.structure.normalize import normalize_text
 from tio2agent.retrieval.embeddings import Embedder, EmbeddingError
 from tio2agent.retrieval.keyword import Bm25Index
+from tio2agent.retrieval.rerank import Reranker, RerankError
 from tio2agent.retrieval.vector import VectorIndex
 from tio2agent.storage.chunk_repo import ChunkRepository
 
@@ -39,6 +40,8 @@ class SearchHit:
     vector: float | None = None
     bm25_rank: int | None = None
     vector_rank: int | None = None
+    fused_rank: int | None = None                  # position after fusion, before reranking
+    rerank: float | None = None                    # cross-encoder score, if reranked
     also_in: list[str] = field(default_factory=list)  # citations of collapsed duplicates
 
 
@@ -50,6 +53,7 @@ class SearchResult:
     mode_used: SearchMode
     hits: list[SearchHit]
     warnings: list[str] = field(default_factory=list)
+    reranked: bool = False
 
 
 class SearchService:
@@ -57,14 +61,20 @@ class SearchService:
         self,
         repo: ChunkRepository,
         embedder: Embedder | None = None,
+        reranker: Reranker | None = None,
         *,
         rrf_k: int = 60,  # RRF 算法的平滑常数（默认 60，学术界公认的最佳实践）。
         candidate_pool: int = 50,  # 底层单通道拉取数量（默认 50）。意思是先让 BM25 召回 50 个，让向量引擎也召回 50 个，把这 100 个混在一起重排，最后挑出 top_k（如前 8 个）给用户。
+        rerank_candidates: int = 30,
+        rerank_max_chars: int = 1500,
     ) -> None:
         self.repo = repo
         self.embedder = embedder
+        self.reranker = reranker
         self.rrf_k = rrf_k
         self.candidate_pool = candidate_pool
+        self.rerank_candidates = rerank_candidates
+        self.rerank_max_chars = rerank_max_chars
         self._lock = threading.Lock()
         self._generation = -1
         self._chunks: dict[str, Chunk] = {}
@@ -96,6 +106,7 @@ class SearchService:
         doc_ids: list[str] | None = None,
         kinds: list[ChunkKind] | None = None,
         mode: SearchMode = SearchMode.HYBRID,
+        rerank: bool | None = None,
     ) -> SearchResult:
         # 刷新索引，归一化查询字符串，计算出 allowed 过滤白名单（基于文档 ID 或块类型）。
         self._refresh()
@@ -131,8 +142,32 @@ class SearchService:
 
         # 调用 _fuse 将两份名单融合为一份，然后调用 collapse_duplicates 进行去重，最后返回前 top_k 条。
         hits = self._fuse(bm25, vector)
+        reranked = False
+        if rerank is not False and hits:
+            if self.reranker is None:
+                if rerank:
+                    warnings.append("未配置重排序服务（TIO2_RERANK_BACKEND），按融合结果排序")
+            else:
+                try:
+                    hits = self._rerank(normalized, hits)
+                    reranked = True
+                except RerankError as exc:
+                    warnings.append(f"重排序失败，按融合结果排序：{exc.message}")
         hits = collapse_duplicates(hits)[:top_k]
-        return SearchResult(query, normalized, mode, mode_used, hits, warnings)
+        return SearchResult(query, normalized, mode, mode_used, hits, warnings, reranked)
+
+    def _rerank(self, query: str, hits: list[SearchHit]) -> list[SearchHit]:
+        """
+        将融合后的候选文档进行重排，保持其余文档的 fused 顺序。
+        """
+        assert self.reranker is not None
+        head, tail = hits[: self.rerank_candidates], hits[self.rerank_candidates :]
+        documents = [h.chunk.search_text()[: self.rerank_max_chars] for h in head]
+        scores = self.reranker.rerank(query, documents)
+        for hit, score in zip(head, scores, strict=True):
+            hit.rerank = score
+        # 稳定排序：相等分数保持融合顺序
+        return sorted(head, key=lambda h: -(h.rerank or 0.0)) + tail
 
     def _allowed(self, doc_ids: list[str] | None, kinds: list[ChunkKind] | None) -> set[str] | None:
         """
@@ -157,7 +192,10 @@ class SearchService:
                 hit.score += 1.0 / (self.rrf_k + rank)
                 setattr(hit, method, score)
                 setattr(hit, f"{method}_rank", rank)
-        return sorted(hits.values(), key=lambda h: (-h.score, h.chunk.doc_id, h.chunk.order))
+        fused = sorted(hits.values(), key=lambda h: (-h.score, h.chunk.doc_id, h.chunk.order))
+        for rank, hit in enumerate(fused, start=1):
+            hit.fused_rank = rank
+        return fused
 
 
 def collapse_duplicates(hits: list[SearchHit]) -> list[SearchHit]:

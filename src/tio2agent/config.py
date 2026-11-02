@@ -18,6 +18,12 @@ class EmbeddingBackend(StrEnum):
     OPENAI_COMPATIBLE = "openai_compatible"  # any /v1/embeddings endpoint
 
 
+class RerankBackend(StrEnum):
+    NONE = "none"                            # results ordered by fusion only
+    COHERE_COMPATIBLE = "cohere_compatible"  # {base_url}/rerank, Cohere/Jina style: vLLM, SGLang, hosted APIs
+    TEI = "tei"                              # Hugging Face text-embeddings-inference /rerank
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="TIO2_", env_file=".env", extra="ignore")
 
@@ -54,6 +60,15 @@ class Settings(BaseSettings):
     embedding_api_key: str | None = None
     embedding_batch_size: int = Field(32, ge=1)
     embedding_timeout_s: float = Field(60.0, gt=0)
+
+    # Reranking (optional; a cross-encoder re-scores the top fused candidates)
+    rerank_backend: RerankBackend = RerankBackend.NONE
+    rerank_base_url: str = "http://localhost:8001/v1"  # not 8000: that is this app
+    rerank_model: str = "BAAI/bge-reranker-v2-m3"
+    rerank_api_key: str | None = None
+    rerank_candidates: int = Field(30, ge=2, le=200)
+    rerank_max_chars: int = Field(1500, ge=100)
+    rerank_timeout_s: float = Field(30.0, gt=0)
 
     @property
     def max_upload_bytes(self) -> int:
