@@ -13,6 +13,11 @@ class OcrBackend(StrEnum):
     PADDLEOCR_VL = "paddleocr_vl"  # PaddleOCR-VL pipeline service (POST /layout-parsing)
 
 
+class EmbeddingBackend(StrEnum):
+    NONE = "none"                            # keyword (BM25) search only
+    OPENAI_COMPATIBLE = "openai_compatible"  # any /v1/embeddings endpoint
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="TIO2_", env_file=".env", extra="ignore")
 
@@ -36,6 +41,19 @@ class Settings(BaseSettings):
     ocr_backend: OcrBackend = OcrBackend.NONE
     ocr_base_url: str = "http://localhost:8080"
     ocr_timeout_s: float = Field(300.0, gt=0)
+
+    # Chunking and search
+    chunk_max_chars: int = Field(600, ge=100)
+    search_top_k: int = Field(8, ge=1, le=50)
+    search_rrf_k: int = Field(60, ge=1)
+
+    # Embeddings (optional; without them search is BM25 only)
+    embedding_backend: EmbeddingBackend = EmbeddingBackend.NONE
+    embedding_base_url: str = "http://localhost:11434/v1"
+    embedding_model: str = "bge-m3"
+    embedding_api_key: str | None = None
+    embedding_batch_size: int = Field(32, ge=1)
+    embedding_timeout_s: float = Field(60.0, gt=0)
 
     @property
     def max_upload_bytes(self) -> int:

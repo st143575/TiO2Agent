@@ -1,3 +1,4 @@
+from tio2agent.domain.chunk import Chunk, ChunkKind
 from tio2agent.domain.document import (
     TERMINAL_STATUSES,
     DocType,
@@ -50,4 +51,7 @@ __all__ = [
     "SectionKind",
     "StructuredDocument",
     "TableRef",
+    # Chunking module
+    "Chunk",
+    "ChunkKind",
 ]

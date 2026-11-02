@@ -16,9 +16,11 @@ from tio2agent.api.middleware import UploadSizeLimitMiddleware
 from tio2agent.api.routes import documents, health
 from tio2agent.config import Settings, get_settings
 from tio2agent.ingestion import DocumentService, IngestionPipeline, IngestionRunner
+from tio2agent.ingestion.chunking import ChunkingOptions
 from tio2agent.ingestion.ocr import OcrEngine, build_ocr_engine
 from tio2agent.ingestion.stages import default_stages
-from tio2agent.storage import DocumentRepository, FileStore
+from tio2agent.retrieval import Embedder, SearchService, build_embedder
+from tio2agent.storage import ChunkRepository, DocumentRepository, FileStore
 
 logger = logging.getLogger(__name__)
 
@@ -44,15 +46,27 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     else:
         logger.info("OCR enabled: %s", ocr_engine.name)
 
+    embedder: Embedder | None = app.state.embedder_override or build_embedder(settings)
+    logger.info("embeddings: %s", embedder.model if embedder else "disabled (BM25 only)")
+    chunk_repo = ChunkRepository(settings.db_path)
+
     pipeline = IngestionPipeline(
         repo,
         raw_path_for=file_store.path_for,
         processed_dir=settings.processed_dir,
-        stages=default_stages(ocr_engine=ocr_engine),
+        stages=default_stages(
+            chunk_repo=chunk_repo,
+            ocr_engine=ocr_engine,
+            embedder=embedder,
+            chunking=ChunkingOptions(max_chars=settings.chunk_max_chars),
+        ),
     )
     runner = IngestionRunner(pipeline, max_workers=settings.ingest_workers)
     service = DocumentService(repo=repo, file_store=file_store, runner=runner, settings=settings)
+    service.add_cleanup_hook(lambda record: chunk_repo.delete_document(record.id))
     app.state.document_service = service
+    app.state.chunk_repo = chunk_repo
+    app.state.search_service = SearchService(chunk_repo, embedder, rrf_k=settings.search_rrf_k)
 
     recovered = service.recover_unfinished()
     if recovered:
@@ -63,11 +77,19 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     finally:
         runner.shutdown(wait=False)
         repo.close()
+        chunk_repo.close()
         if ocr_engine is not None:
             ocr_engine.close()
+        if embedder is not None:
+            embedder.close()
 
 
-def create_app(settings: Settings | None = None, *, ocr_engine: OcrEngine | None = None) -> FastAPI:
+def create_app(
+    settings: Settings | None = None, 
+    *, 
+    ocr_engine: OcrEngine | None = None, 
+    embedder: Embedder | None = None,
+) -> FastAPI:
     settings = settings or get_settings()
     app = FastAPI(
         title=settings.app_name,
@@ -76,8 +98,8 @@ def create_app(settings: Settings | None = None, *, ocr_engine: OcrEngine | None
         lifespan=lifespan,
     )
     app.state.settings = settings
-    # ``ocr_engine`` overrides the engine built from settings (tests)."""
     app.state.ocr_engine_override = ocr_engine
+    app.state.embedder_override = embedder
 
     app.add_middleware(
         UploadSizeLimitMiddleware,
@@ -88,6 +110,7 @@ def create_app(settings: Settings | None = None, *, ocr_engine: OcrEngine | None
 
     app.include_router(health.router)
     app.include_router(documents.router, prefix=API_PREFIX)
+    app.include_router(search.router, prefix=API_PREFIX)
     return app
 
 

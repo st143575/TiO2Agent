@@ -10,8 +10,10 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, File, Form, Query, Request, Response, UploadFile, status
 from pydantic import ValidationError
 
-from tio2agent.api.deps import get_document_service
+from tio2agent.api.deps import get_chunk_repo, get_document_service
 from tio2agent.api.schemas import DocumentListOut, DocumentOut, ErrorResponse, ReindexRequest
+from tio2agent.api.schemas.search import ChunkListOut, ChunkOut
+from tio2agent.storage import ChunkRepository
 from tio2agent.errors import InvalidMetadataError, InvalidParameterError
 from tio2agent.ingestion import DocumentService
 from tio2agent.domain import (
@@ -154,6 +156,22 @@ def get_document_structure(
         "claims": {"__all__": {"raw"}},
     }
     return document.model_dump(mode="json", exclude=exclude)
+
+
+@router.get(
+    "/{doc_id}/chunks",
+    response_model=ChunkListOut,
+    responses={404: _ERRORS[404]},
+    summary="查看文档的检索切块",
+)
+def get_document_chunks(
+    doc_id: str,
+    service: ServiceDep,
+    chunks: Annotated[ChunkRepository, Depends(get_chunk_repo)],
+) -> ChunkListOut:
+    service.get(doc_id)  # 404 if the document does not exist
+    items = [ChunkOut.from_chunk(c) for c in chunks.list_by_doc(doc_id)]
+    return ChunkListOut(doc_id=doc_id, total=len(items), items=items)
 
 
 @router.delete(
