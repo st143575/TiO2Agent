@@ -14,7 +14,14 @@ from tio2agent.api.deps import get_document_service
 from tio2agent.api.schemas import DocumentListOut, DocumentOut, ErrorResponse, ReindexRequest
 from tio2agent.errors import InvalidMetadataError, InvalidParameterError
 from tio2agent.ingestion import DocumentService
-from tio2agent.domain import DocType, DocumentMetadata, DocumentStatus, IngestOptions, OcrMode
+from tio2agent.domain import (
+    DocType,
+    DocumentMetadata,
+    DocumentStatus,
+    IngestOptions,
+    OcrMode,
+    StructuredDocument,
+)
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -128,6 +135,25 @@ def list_documents(
 )
 def get_document(doc_id: str, service: ServiceDep) -> DocumentOut:
     return DocumentOut.from_record(service.get(doc_id))
+
+
+@router.get(
+    "/{doc_id}/structure",
+    response_model=None,
+    responses={200: {"model": StructuredDocument}, 404: _ERRORS[404], 409: _ERRORS[409]},
+    summary="查看文档结构识别结果",
+)
+def get_document_structure(
+    doc_id: str,
+    service: ServiceDep,
+    include_raw: Annotated[bool, Query(description="是否返回提取时的原始文本 raw")] = False,
+) -> dict:
+    document = service.get_structure(doc_id)
+    exclude = None if include_raw else {
+        "paragraphs": {"__all__": {"raw"}},
+        "claims": {"__all__": {"raw"}},
+    }
+    return document.model_dump(mode="json", exclude=exclude)
 
 
 @router.delete(

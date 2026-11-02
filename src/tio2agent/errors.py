@@ -68,3 +68,8 @@ class DocumentNotFoundError(AppError):
 class DocumentBusyError(AppError):
     code = "DOCUMENT_BUSY"
     message = "文档正在处理中，请等处理结束后再操作"
+
+
+class StructureNotAvailableError(AppError):
+    code = "STRUCTURE_NOT_AVAILABLE"
+    message = "文档还没有结构化结果"
