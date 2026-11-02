@@ -10,8 +10,23 @@ from tio2agent.domain.document import (
     OcrMode,
     utcnow,
 )
+from tio2agent.domain.structure import (
+    Bibliographic,
+    Claim,
+    ClaimCategory,
+    ClaimKind,
+    Embodiment,
+    EmbodimentKind,
+    Paragraph,
+    ParagraphRole,
+    Section,
+    SectionKind,
+    StructuredDocument,
+    TableRef,
+)
 
 __all__ = [
+    # Upload & Parse modules
     "TERMINAL_STATUSES",
     "DocType",
     "DocumentMetadata",
@@ -22,4 +37,17 @@ __all__ = [
     "Issue",
     "OcrMode",
     "utcnow",
+    # Structure module
+    "Bibliographic",
+    "Claim",
+    "ClaimCategory",
+    "ClaimKind",
+    "Embodiment",
+    "EmbodimentKind",
+    "Paragraph",
+    "ParagraphRole",
+    "Section",
+    "SectionKind",
+    "StructuredDocument",
+    "TableRef",
 ]

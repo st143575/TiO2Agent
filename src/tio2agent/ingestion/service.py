@@ -12,7 +12,7 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 from typing import BinaryIO
 
 from tio2agent.config import Settings
-from tio2agent.errors import DocumentBusyError, DocumentNotFoundError
+from tio2agent.errors import DocumentBusyError, DocumentNotFoundError, StructureNotAvailableError
 from tio2agent.ingestion.runner import IngestionRunner
 from tio2agent.ingestion.validation import inspect_pdf
 from tio2agent.domain import (
@@ -23,7 +23,9 @@ from tio2agent.domain import (
     DocumentStats,
     DocumentStatus,
     IngestOptions,
+    StructuredDocument,
 )
+from tio2agent.ingestion.stages.structure import STRUCTURE_FILE
 from tio2agent.storage import DocumentRepository, DuplicateDocumentError, FileStore, Outcome
 from tio2agent.storage.file_store import remove_tree
 
@@ -135,6 +137,20 @@ class DocumentService:
         self, *, status: DocumentStatus | None = None, limit: int = 20, offset: int = 0
     ) -> tuple[list[DocumentRecord], int]:
         return self.repo.list_page(status=status, limit=limit, offset=offset)
+
+    def get_structure(self, doc_id: str) -> StructuredDocument:
+        record = self.get(doc_id)
+        if not record.status.is_terminal:
+            raise StructureNotAvailableError(
+                "文档仍在处理中，请稍后再试", details={"id": doc_id, "status": record.status}
+            )
+        path = self.processed_dir_for(doc_id) / STRUCTURE_FILE
+        if not path.exists():
+            raise StructureNotAvailableError(
+                "该文档没有结构化结果（处理失败，或在结构识别功能上线前导入），可调用 reindex 重新处理",
+                details={"id": doc_id, "status": record.status},
+            )
+        return StructuredDocument.model_validate_json(path.read_text(encoding="utf-8"))
 
     # --- mutations -------------------------------------------------------------
 
