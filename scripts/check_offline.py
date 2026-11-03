@@ -38,6 +38,10 @@ API = "/api/v1"
 TERMINAL = {"ready", "ready_with_warnings", "failed"}
 
 
+class ServerUnavailable(RuntimeError):
+    """--base-url given but nothing answers there."""
+
+
 # --- talking to the API ------------------------------------------------------------------
 
 
@@ -48,6 +52,14 @@ def open_client(base_url: str | None, keep_data: Path | None):
         import httpx
 
         with httpx.Client(base_url=base_url, timeout=120) as client:
+            try:
+                client.get("/health", timeout=5).raise_for_status()
+            except httpx.HTTPError as exc:
+                raise ServerUnavailable(
+                    f"连不上 {base_url}（{exc}）。\n"
+                    "  · 先在另一个终端启动服务：uv run tio2agent，或 docker compose up -d\n"
+                    "  · 或者去掉 --base-url，在进程内运行，不需要启动服务"
+                ) from exc
             yield client, f"server {base_url}"
         return
 
@@ -249,6 +261,25 @@ def print_report(rows: list[dict], where: str) -> None:
             print(f"  [{i['level']}] {i['message']}")
 
 
+def run_checks(pdfs: list[Path], args) -> tuple[list[dict], str]:
+    rows = []
+    with open_client(args.base_url, args.keep_data) as (client, where):
+        for pdf in pdfs:
+            print(f"处理 {pdf.name} …", file=sys.stderr, flush=True)
+            try:
+                doc, seconds = ingest(client, pdf, reindex=args.reindex, timeout=args.timeout)
+            except Exception as exc:  # report and go on with the next file
+                rows.append({"file": pdf.name, "id": None, "status": "error", "seconds": 0, "publication_number": None,
+                             "title": None, "stats": {k: 0 for k in ("pages", "paragraphs", "chunks", "facts")},
+                             "claims": 0, "independent_claims": [], "embodiments": [], "tables": 0,
+                             "facts_by_kind": {}, "fact_checks": {}, "formulation_totals": {},
+                             "issues": [{"level": "FAIL", "message": str(exc)}]})
+                continue
+            data = fetch(client, doc["id"])
+            rows.append(summarize(pdf, doc, data, seconds, check(doc, data)))
+    return rows, where
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("pdfs", nargs="*", type=Path, help="默认 data/samples/*.pdf")
@@ -265,21 +296,11 @@ def main() -> int:
         print("没有找到 PDF", file=sys.stderr)
         return 2
 
-    rows = []
-    with open_client(args.base_url, args.keep_data) as (client, where):
-        for pdf in pdfs:
-            print(f"处理 {pdf.name} …", file=sys.stderr, flush=True)
-            try:
-                doc, seconds = ingest(client, pdf, reindex=args.reindex, timeout=args.timeout)
-            except Exception as exc:  # report and go on with the next file
-                rows.append({"file": pdf.name, "id": None, "status": "error", "seconds": 0, "publication_number": None,
-                             "title": None, "stats": {k: 0 for k in ("pages", "paragraphs", "chunks", "facts")},
-                             "claims": 0, "independent_claims": [], "embodiments": [], "tables": 0,
-                             "facts_by_kind": {}, "fact_checks": {}, "formulation_totals": {},
-                             "issues": [{"level": "FAIL", "message": str(exc)}]})
-                continue
-            data = fetch(client, doc["id"])
-            rows.append(summarize(pdf, doc, data, seconds, check(doc, data)))
+    try:
+        rows, where = run_checks(pdfs, args)
+    except ServerUnavailable as exc:
+        print(f"错误：{exc}", file=sys.stderr)
+        return 2
 
     print_report(rows, where)
     if args.out:
