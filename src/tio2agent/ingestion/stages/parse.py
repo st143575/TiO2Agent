@@ -26,6 +26,11 @@ LARGE_IMAGE_MIN_AREA = 60000
 _PATENT_TITLE = re.compile(r"[（(]54[)）]\s*(?:发明名称|实用新型名称)\s*\n\s*(\S[^\n]*)")
 
 
+def is_large_image(width: int, height: int) -> bool:
+    """Big enough to hold content (a table or figure), not a logo or header strip."""
+    return min(width, height) >= LARGE_IMAGE_MIN_SIDE and width * height >= LARGE_IMAGE_MIN_AREA
+
+
 class ParseStage:
     status = DocumentStatus.PARSING
 
