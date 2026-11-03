@@ -1,0 +1,103 @@
+# TiO2Agent
+#
+#   docker compose up -d                  # app only, CPU, OCR off
+#   docker compose --profile ocr up -d    # app + PaddleOCR-VL (NVIDIA GPU, CUDA >= 12.6)
+#
+# With the "ocr" profile also set TIO2_OCR_BACKEND=paddleocr_vl (see .env.example).
+# Requires Docker Compose v2.20+ (optional depends_on).
+
+name: tio2agent
+
+services:
+  app:
+    build: .
+    image: tio2agent:latest
+    ports:
+      - "${TIO2_PORT:-8000}:8000"
+    environment:
+      TIO2_LOG_LEVEL: ${TIO2_LOG_LEVEL:-INFO}
+      TIO2_MAX_UPLOAD_MB: ${TIO2_MAX_UPLOAD_MB:-50}
+      TIO2_MAX_PAGES: ${TIO2_MAX_PAGES:-200}
+      TIO2_INGEST_WORKERS: ${TIO2_INGEST_WORKERS:-2}
+      TIO2_OCR_BACKEND: ${TIO2_OCR_BACKEND:-none}
+      TIO2_OCR_BASE_URL: http://paddleocr-vl-api:8080
+      TIO2_OCR_TIMEOUT_S: ${TIO2_OCR_TIMEOUT_S:-300}
+      TIO2_CHUNK_MAX_CHARS: ${TIO2_CHUNK_MAX_CHARS:-600}
+      TIO2_SEARCH_TOP_K: ${TIO2_SEARCH_TOP_K:-8}
+      TIO2_EMBEDDING_BACKEND: ${TIO2_EMBEDDING_BACKEND:-none}
+      # Separate from TIO2_EMBEDDING_BASE_URL (local runs): inside the container,
+      # "localhost" is the container itself; a server on the host is host.docker.internal.
+      TIO2_EMBEDDING_BASE_URL: ${DOCKER_EMBEDDING_BASE_URL:-http://host.docker.internal:11434/v1}
+      TIO2_EMBEDDING_MODEL: ${TIO2_EMBEDDING_MODEL:-bge-m3}
+      TIO2_EMBEDDING_API_KEY: ${TIO2_EMBEDDING_API_KEY:-}
+      TIO2_RERANK_BACKEND: ${TIO2_RERANK_BACKEND:-none}
+      TIO2_RERANK_BASE_URL: ${DOCKER_RERANK_BASE_URL:-http://host.docker.internal:8001/v1}
+      TIO2_RERANK_MODEL: ${TIO2_RERANK_MODEL:-BAAI/bge-reranker-v2-m3}
+      TIO2_RERANK_API_KEY: ${TIO2_RERANK_API_KEY:-}
+      TIO2_RERANK_CANDIDATES: ${TIO2_RERANK_CANDIDATES:-30}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - app-data:/app/data
+    depends_on:
+      paddleocr-vl-api:
+        condition: service_healthy
+        required: false   # only waited for when the "ocr" profile is active
+    restart: unless-stopped
+
+  # --- PaddleOCR-VL pipeline (optional) -------------------------------------------
+  # Adapted from PaddlePaddle/PaddleOCR deploy/paddleocr_vl_docker/accelerators/
+  # nvidia-gpu/compose.yaml (Apache-2.0). Two containers: the pipeline API (layout
+  # detection + /layout-parsing) and the VLM inference server it calls. The service
+  # name "paddleocr-vlm-server" must not change: the pipeline config baked into the
+  # API image points at http://paddleocr-vlm-server:8080/v1.
+  #
+  # Images are pulled from Baidu's registry (several GB). For reproducible builds,
+  # pin a release, e.g. PADDLEOCR_IMAGE_TAG=paddleocr3.3-nvidia-gpu-offline.
+
+  paddleocr-vl-api:
+    profiles: [ocr]
+    image: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-vl:${PADDLEOCR_IMAGE_TAG:-latest-nvidia-gpu-offline}
+    ports:
+      - "127.0.0.1:${PADDLEOCR_PORT:-8080}:8080"   # host access for scripts/eval_ocr_table.py
+    depends_on:
+      paddleocr-vlm-server:
+        condition: service_healthy
+    environment:
+      - VLM_BACKEND=${PADDLEOCR_VLM_BACKEND:-vllm}
+    command: /bin/bash -c "paddlex --serve --pipeline /home/paddleocr/pipeline_config_${PADDLEOCR_VLM_BACKEND:-vllm}.yaml"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${PADDLEOCR_GPU_ID:-0}"]
+              capabilities: [gpu]
+    shm_size: ${PADDLEOCR_SHM_SIZE:-64g}
+    user: root
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      start_period: 120s
+
+  paddleocr-vlm-server:
+    profiles: [ocr]
+    image: ccr-2vdh3abv-pub.cnc.bj.baidubce.com/paddlepaddle/paddleocr-genai-${PADDLEOCR_VLM_BACKEND:-vllm}-server:${PADDLEOCR_IMAGE_TAG:-latest-nvidia-gpu-offline}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${PADDLEOCR_GPU_ID:-0}"]
+              capabilities: [gpu]
+    shm_size: ${PADDLEOCR_SHM_SIZE:-64g}
+    user: root
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      start_period: 300s
+
+volumes:
+  app-data:

@@ -1,0 +1,24 @@
+{"id": "q01", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "这件专利的申请人是哪家公司？", "relevant": ["bibliographic"], "type": "bibliographic"}
+{"id": "q02", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "发明人有哪些？", "relevant": ["bibliographic"], "type": "bibliographic"}
+{"id": "q03", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "专利的申请号和申请日是什么？", "relevant": ["bibliographic"], "type": "bibliographic"}
+{"id": "q04", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "专利的IPC分类号是什么？", "relevant": ["bibliographic"], "type": "bibliographic"}
+{"id": "q05", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "高耐候钛白粉的原料配比范围是多少？", "relevant": ["claim:1", "p:0007", "abstract"], "type": "fact"}
+{"id": "q06", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例1中二氧化钛用了多少份？", "relevant": ["p:0026"], "type": "embodiment"}
+{"id": "q07", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例2的反应釜温度和转速是多少？", "relevant": ["p:0031"], "type": "embodiment"}
+{"id": "q08", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例3加入了多少份包膜剂？", "relevant": ["p:0038"], "type": "embodiment"}
+{"id": "q09", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "包膜剂可以选择哪些物质？", "relevant": ["claim:5", "p:0011", "abstract"], "type": "fact"}
+{"id": "q10", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "消泡剂用的是什么？", "relevant": ["claim:6", "p:0012", "abstract"], "type": "fact"}
+{"id": "q11", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "抗氧化剂有哪些选择？", "relevant": ["claim:7", "p:0013"], "type": "fact"}
+{"id": "q12", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "高耐候钛白粉的制备方法包括哪些步骤？", "relevant": ["claim:8", "p:0014", "p:0015", "p:0016", "p:0017", "p:0018"], "type": "fact"}
+{"id": "q13", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "砂磨机研磨多长时间？", "relevant": ["claim:8", "p:0016", "p:0027", "p:0032", "p:0037"], "type": "fact"}
+{"id": "q14", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "加入锆盐后pH值调节到多少？", "relevant": ["claim:8", "p:0017", "p:0028", "p:0033", "p:0038"], "type": "fact"}
+{"id": "q15", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "过滤后的滤饼用什么洗涤？", "relevant": ["claim:8", "p:0018", "p:0029", "p:0034", "p:0039"], "type": "fact"}
+{"id": "q16", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "哪个实施例制备的钛白粉耐候性最好？", "relevant": ["p:0042", "p:0043"], "type": "comparison"}
+{"id": "q17", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "老化试验后的色差值是多少？", "relevant": ["p:0042", "p:0043"], "type": "comparison"}
+{"id": "q18", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "对比测试是怎么安排工作人员的？", "relevant": ["p:0041"], "type": "comparison"}
+{"id": "q19", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "现有技术的包膜处理存在什么问题？", "relevant": ["p:0003", "p:0005"], "type": "background"}
+{"id": "q20", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "钛白粉的生产工艺有哪两种路线？", "relevant": ["p:0002"], "type": "background"}
+{"id": "q21", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "本发明属于什么技术领域？", "relevant": ["p:0001", "abstract"], "type": "background"}
+{"id": "q22", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "本发明有哪些有益效果？", "relevant": ["p:0020", "p:0021", "p:0022", "abstract"], "type": "background"}
+{"id": "q23", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "为什么加入抗氧化剂？起什么作用？", "relevant": ["p:0022"], "type": "paraphrase"}
+{"id": "q24", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "怎样避免包膜时颗粒结块？", "relevant": ["p:0021", "abstract", "p:0017", "claim:8"], "type": "paraphrase"}
