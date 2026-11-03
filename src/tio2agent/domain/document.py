@@ -99,6 +99,9 @@ class DocumentRecord(BaseModel):
     The persisted state of one uploaded document.
     This model represents the document record stored in the database.
     Currently, it consists of 15 fields.
+    文档管理档案，管理一个 PDF 文件在系统中的生命周期、物理属性和任务状态。
+    贯穿整个系统，直接持久化存在 SQLite 数据库的 documents 表里。
+    不包含文档的实际正文。
     """
 
     id: str

@@ -114,6 +114,14 @@ class TableRef(BaseModel):
 
 
 class StructuredDocument(BaseModel):
+    """
+    The structured representation of a document.
+    This model represents the structured document stored in the database.
+    Currently, it consists of 15 fields.
+    结构化文档对象，承载对 PDF 文本进行深度 NLP/正则解析后得到的业务语义结构。
+    只在后台解析流水线（Ingestion Pipeline）的内存中短暂或作为中间产物（Artifact）存在。
+    包含高度业务化的结构化信息，如权利要求、实施例、表格等。
+    """
     schema_version: int = 1
     doc_id: str
     doc_type: str
