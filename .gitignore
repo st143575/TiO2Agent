@@ -9,3 +9,6 @@ docs/
 Dockerfile
 .dockerignore
 __pycache__/
+.coverage
+evals/reports/*
+!evals/reports/.gitkeep
