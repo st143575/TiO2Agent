@@ -1,0 +1,34 @@
+[project]
+name = "tio2agent"
+version = "0.1.0"
+description = "RAG + multi-step Agent QA backend for TiO2 technical documents"
+readme = "README.md"
+authors = [
+    { name = "Chong Shen", email = "st143575@stud.uni-stuttgart.de" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.156.8",
+    "httpx>=0.28.1",
+    "pillow>=13.0.0",
+    "pydantic-settings>=2.16.1",
+    "pypdf[crypto]>=6.21.1",
+    "python-multipart>=0.0.32",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+tio2agent = "tio2agent.main:run"
+
+[build-system]
+requires = ["uv_build>=0.13.4,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.16.0",
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

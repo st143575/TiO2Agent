@@ -1,7 +1,4 @@
 .DS_Store
-pyproject.toml
-.python-version
-uv.lock
 .env
 data/samples/*
 !data/samples/.gitkeep
