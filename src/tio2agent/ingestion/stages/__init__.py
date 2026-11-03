@@ -39,10 +39,10 @@ def default_stages(
     ]
     
     if chunk_repo is not None:
-        stages.append(IndexStage(chunk_repo=chunk_repo, embedder=embedder, chunking=chunking))
+        stages.append(IndexStage(repo=chunk_repo, embedder=embedder, options=chunking))
     
     if fact_repo is not None:
-        stages.append(ExtractStage(fact_repo=fact_repo))
+        stages.append(ExtractStage(repo=fact_repo))
     
     return stages
 
