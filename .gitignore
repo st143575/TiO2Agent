@@ -2,6 +2,13 @@
 .env
 data/samples/*
 !data/samples/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/tmp/*
+!data/tmp/.gitkeep
+data/*.db*
 .vscode/
 tests/fixtures/
 docs/
