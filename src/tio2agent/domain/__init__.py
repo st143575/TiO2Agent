@@ -1,4 +1,5 @@
 from tio2agent.domain.chunk import Chunk, ChunkKind
+from tio2agent.domain.facts import Fact, FactCheck, FactKind, Formulation, group_formulations
 from tio2agent.domain.document import (
     TERMINAL_STATUSES,
     DocType,
@@ -54,4 +55,10 @@ __all__ = [
     # Chunking module
     "Chunk",
     "ChunkKind",
+    # Extract module
+    "Fact",
+    "FactCheck",
+    "FactKind",
+    "Formulation",
+    "group_formulations",
 ]

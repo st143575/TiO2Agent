@@ -13,14 +13,14 @@ from fastapi import FastAPI
 from tio2agent import __version__
 from tio2agent.api.errors import register_exception_handlers
 from tio2agent.api.middleware import UploadSizeLimitMiddleware
-from tio2agent.api.routes import documents, health, search
+from tio2agent.api.routes import documents, facts, health, search
 from tio2agent.config import Settings, get_settings
 from tio2agent.ingestion import DocumentService, IngestionPipeline, IngestionRunner
 from tio2agent.ingestion.chunking import ChunkingOptions
 from tio2agent.ingestion.ocr import OcrEngine, build_ocr_engine
 from tio2agent.ingestion.stages import default_stages
 from tio2agent.retrieval import Embedder, Reranker, SearchService, build_embedder, build_reranker
-from tio2agent.storage import ChunkRepository, DocumentRepository, FileStore
+from tio2agent.storage import ChunkRepository, DocumentRepository, FactRepository, FileStore
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     embedder: Embedder | None = app.state.embedder_override or build_embedder(settings)
     logger.info("embeddings: %s", embedder.model if embedder else "disabled (BM25 only)")
     chunk_repo = ChunkRepository(settings.db_path)
+    fact_repo = FactRepository(settings.db_path)
 
     pipeline = IngestionPipeline(
         repo,
@@ -59,13 +60,16 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             ocr_engine=ocr_engine,
             embedder=embedder,
             chunking=ChunkingOptions(max_chars=settings.chunk_max_chars),
+            fact_repo=fact_repo,
         ),
     )
     runner = IngestionRunner(pipeline, max_workers=settings.ingest_workers)
     service = DocumentService(repo=repo, file_store=file_store, runner=runner, settings=settings)
     service.add_cleanup_hook(lambda record: chunk_repo.delete_document(record.id))
+    service.add_cleanup_hook(lambda record: fact_repo.delete_document(record.id))
     app.state.document_service = service
     app.state.chunk_repo = chunk_repo
+    app.state.fact_repo = fact_repo
     reranker: Reranker | None = app.state.reranker_override or build_reranker(settings)
     logger.info("reranking: %s", reranker.model if reranker else "disabled (fused order)")
     app.state.search_service = SearchService(
@@ -87,6 +91,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         runner.shutdown(wait=False)
         repo.close()
         chunk_repo.close()
+        fact_repo.close()
         if ocr_engine is not None:
             ocr_engine.close()
         if embedder is not None:
@@ -124,6 +129,7 @@ def create_app(
     app.include_router(health.router)
     app.include_router(documents.router, prefix=API_PREFIX)
     app.include_router(search.router, prefix=API_PREFIX)
+    app.include_router(facts.router, prefix=API_PREFIX)
     return app
 
 
