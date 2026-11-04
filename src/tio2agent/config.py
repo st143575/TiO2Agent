@@ -24,6 +24,11 @@ class RerankBackend(StrEnum):
     TEI = "tei"                              # Hugging Face text-embeddings-inference /rerank
 
 
+class LlmBackend(StrEnum):
+    NONE = "none"                            # /agent/chat answers 503
+    OPENAI_COMPATIBLE = "openai_compatible"  # any /v1/chat/completions endpoint with tool calling
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="TIO2_", env_file=".env", extra="ignore")
 
@@ -69,6 +74,20 @@ class Settings(BaseSettings):
     rerank_candidates: int = Field(30, ge=2, le=200)
     rerank_max_chars: int = Field(1500, ge=100)
     rerank_timeout_s: float = Field(30.0, gt=0)
+
+    # LLM for the Agent (OpenAI-compatible chat completions with tool calling)
+    llm_backend: LlmBackend = LlmBackend.NONE
+    llm_base_url: str = "http://localhost:11434/v1"
+    llm_model: str = "qwen3:8b"
+    llm_api_key: str | None = None
+    llm_temperature: float = Field(0.0, ge=0, le=2)
+    llm_max_tokens: int = Field(2048, ge=64)
+    llm_timeout_s: float = Field(120.0, gt=0)
+
+    # Agent loop
+    agent_max_steps: int = Field(8, ge=1, le=20)        # LLM calls per question
+    agent_history_turns: int = Field(4, ge=0, le=20)    # earlier Q&A pairs sent as context
+    agent_tool_result_chars: int = Field(6000, ge=500)  # cap on one tool result sent to the LLM
 
     @property
     def max_upload_bytes(self) -> int:

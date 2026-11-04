@@ -1,0 +1,15 @@
+{"id": "a01", "type": "fact", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例1中二氧化钛的用量是多少份？", "expected": {"values": [{"value": 55, "unit": "份"}], "citations": ["0026"]}}
+{"id": "a02", "type": "range", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "权利要求1中锆盐的用量范围是多少？", "expected": {"values": [{"low": 6, "high": 8, "unit": "份"}], "citations": ["权利要求1"]}}
+{"id": "a03", "type": "parameter", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例2的S1步骤中，反应釜温度设为多少？", "expected": {"values": [{"value": 50, "unit": "℃"}], "citations": ["0031"]}}
+{"id": "a04", "type": "parameter", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例3中加入铝盐后，pH值调节至多少？", "expected": {"values": [{"value": 6}], "citations": ["0038"]}}
+{"id": "a05", "type": "compare", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "三个实施例在S3包膜步骤中的反应釜温度分别是多少？", "expected": {"values": [{"value": 35, "unit": "℃"}, {"value": 30, "unit": "℃"}, {"value": 40, "unit": "℃"}], "citations": ["0028", "0033", "0038"]}}
+{"id": "a06", "type": "calculation", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例1的原料配方合计多少份？", "expected": {"values": [{"value": 144.6, "unit": "份"}], "citations": ["0026", "0028"]}}
+{"id": "a07", "type": "calculation", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例3中二氧化钛占配方总量的百分比是多少？", "expected": {"values": [{"value": 38.92, "unit": "%", "tolerance": 0.05}], "citations": ["0036"]}}
+{"id": "a08", "type": "calculation", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例1和实施例3的研磨时间相差多少分钟？", "expected": {"values": [{"value": 5, "unit": "min"}], "citations": ["0027", "0037"]}}
+{"id": "a09", "type": "calculation", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例1中去离子水与二氧化钛的质量比是多少？", "expected": {"values": [{"value": 0.818, "tolerance": 0.005}], "citations": ["0026"]}}
+{"id": "a10", "type": "check", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "实施例2中锆盐的加入时间是否在权利要求8规定的范围内？", "expected": {"values": [{"value": 5, "unit": "min"}], "citations": ["权利要求8", "0033"]}}
+{"id": "a11", "type": "option", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "包膜剂可以选用哪些材料？", "expected": {"keywords": ["氧化硅", "氧化铝", "氧化锆"], "citations": ["权利要求5"]}}
+{"id": "a12", "type": "text", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "这项专利的申请人是哪家公司？", "expected": {"keywords": ["淮安市鸿洋钛业有限公司"], "citations": ["扉页著录项"]}}
+{"id": "a13", "type": "text", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "加入抗氧化剂起什么作用？", "expected": {"keywords": ["氧化"], "citations": ["0022"]}}
+{"id": "a14", "type": "negative", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "本专利所用二氧化钛原料的粒径是多少？", "expected": {"status": "insufficient_evidence"}}
+{"id": "a15", "type": "result", "pdf": "data/samples/一种高耐候钛白粉及制备方法.pdf", "question": "哪个实施例的老化试验色差值最小？是多少？", "expected": {"values": [{"value": 1.21}], "keywords": ["实施例1"], "citations": ["0043"]}, "requires": ["ocr"]}

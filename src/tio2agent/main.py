@@ -11,14 +11,16 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from tio2agent import __version__
+from tio2agent.agent import AgentService, SessionStore
 from tio2agent.api.errors import register_exception_handlers
 from tio2agent.api.middleware import UploadSizeLimitMiddleware
-from tio2agent.api.routes import documents, facts, health, search
+from tio2agent.api.routes import agent, documents, facts, health, search
 from tio2agent.config import Settings, get_settings
 from tio2agent.ingestion import DocumentService, IngestionPipeline, IngestionRunner
 from tio2agent.ingestion.chunking import ChunkingOptions
 from tio2agent.ingestion.ocr import OcrEngine, build_ocr_engine
 from tio2agent.ingestion.stages import default_stages
+from tio2agent.llm import ChatModel, build_chat_model
 from tio2agent.retrieval import Embedder, Reranker, SearchService, build_embedder, build_reranker
 from tio2agent.storage import ChunkRepository, DocumentRepository, FactRepository, FileStore
 
@@ -81,6 +83,19 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         rerank_max_chars=settings.rerank_max_chars,
     )
 
+    chat_model: ChatModel | None = app.state.chat_model_override or build_chat_model(settings)
+    logger.info("agent LLM: %s", chat_model.model if chat_model else "disabled (/agent/chat answers 503)")
+    sessions = SessionStore(settings.db_path)
+    app.state.agent_service = AgentService(
+        chat_model=chat_model,
+        search=app.state.search_service,
+        facts=fact_repo,
+        documents=repo,
+        chunks=chunk_repo,
+        sessions=sessions,
+        settings=settings,
+    )
+
     recovered = service.recover_unfinished()
     if recovered:
         logger.info("re-queued %d unfinished documents", recovered)
@@ -98,6 +113,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             embedder.close()
         if reranker is not None:
             reranker.close()
+        sessions.close()
+        if chat_model is not None:
+            chat_model.close()
 
 
 def create_app(
@@ -106,6 +124,7 @@ def create_app(
     ocr_engine: OcrEngine | None = None, 
     embedder: Embedder | None = None,
     reranker: Reranker | None = None,
+    chat_model: ChatModel | None = None,
 ) -> FastAPI:
     settings = settings or get_settings()
     app = FastAPI(
@@ -118,6 +137,7 @@ def create_app(
     app.state.ocr_engine_override = ocr_engine
     app.state.embedder_override = embedder
     app.state.reranker_override = reranker
+    app.state.chat_model_override = chat_model
 
     app.add_middleware(
         UploadSizeLimitMiddleware,
@@ -130,6 +150,7 @@ def create_app(
     app.include_router(documents.router, prefix=API_PREFIX)
     app.include_router(search.router, prefix=API_PREFIX)
     app.include_router(facts.router, prefix=API_PREFIX)
+    app.include_router(agent.router, prefix=API_PREFIX)
     return app
 
 

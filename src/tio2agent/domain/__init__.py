@@ -1,3 +1,12 @@
+from tio2agent.domain.answer import (
+    AgentAnswer,
+    AgentStep,
+    AgentUsage,
+    AnswerStatus,
+    AnswerValue,
+    Citation,
+    SourceKind,
+)
 from tio2agent.domain.chunk import Chunk, ChunkKind
 from tio2agent.domain.facts import Fact, FactCheck, FactKind, Formulation, group_formulations
 from tio2agent.domain.document import (
@@ -61,4 +70,12 @@ __all__ = [
     "FactKind",
     "Formulation",
     "group_formulations",
+    # Agent module
+    "AgentAnswer",
+    "AgentStep",
+    "AgentUsage",
+    "AnswerStatus",
+    "AnswerValue",
+    "Citation",
+    "SourceKind",
 ]

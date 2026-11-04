@@ -111,6 +111,15 @@ class ChunkRepository:
             return [], None
         return [r[0] for r in rows], np.vstack([np.frombuffer(r[1], dtype=np.float32) for r in rows])
 
+    def doc_labels(self) -> dict[str, str]:
+        """doc_id -> display label (publication number or title) of every indexed document."""
+        with self._lock:
+            rows = self._conn.execute(
+                "SELECT doc_id, json_extract(data, '$.doc_label') FROM chunks"
+                " WHERE (doc_id, ord) IN (SELECT doc_id, MIN(ord) FROM chunks GROUP BY doc_id)"
+            ).fetchall()
+        return {doc_id: label for doc_id, label in rows}
+
     def count(self, doc_id: str | None = None) -> int:
         with self._lock:
             if doc_id is None:

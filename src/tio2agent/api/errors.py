@@ -19,9 +19,12 @@ logger = logging.getLogger(__name__)
 STATUS_BY_CODE: dict[str, int] = {
     "EMPTY_FILE": 400,
     "DOCUMENT_NOT_FOUND": 404,
+    "SESSION_NOT_FOUND": 404,
     "DOCUMENT_BUSY": 409,
     "STRUCTURE_NOT_AVAILABLE": 409,
     "FILE_TOO_LARGE": 413,
+    "LLM_FAILED": 502,          # the model server failed or answered garbage
+    "LLM_NOT_CONFIGURED": 503,  # TIO2_LLM_BACKEND=none
     "UNSUPPORTED_FILE_TYPE": 415,
     "PDF_ENCRYPTED": 422,
     "PDF_CORRUPTED": 422,
@@ -45,8 +48,10 @@ def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppError)
     async def handle_app_error(_: Request, exc: AppError) -> JSONResponse:
         status = STATUS_BY_CODE.get(exc.code, 500)
-        if status >= 500:
+        if exc.code not in STATUS_BY_CODE:
             logger.error("unmapped application error %s: %s", exc.code, exc.message)
+        elif status >= 500:
+            logger.warning("%s: %s", exc.code, exc.message)
         return error_response(status, exc.code, exc.message, exc.details)
 
     @app.exception_handler(RequestValidationError)

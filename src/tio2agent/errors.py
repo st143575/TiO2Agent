@@ -73,3 +73,11 @@ class DocumentBusyError(AppError):
 class StructureNotAvailableError(AppError):
     code = "STRUCTURE_NOT_AVAILABLE"
     message = "文档还没有结构化结果"
+
+
+# --- Agent errors ----------------------------------------------------------------
+
+
+class SessionNotFoundError(AppError):
+    code = "SESSION_NOT_FOUND"
+    message = "会话不存在"
