@@ -112,6 +112,44 @@ def score(item: dict, response: dict) -> dict:
 # --- running ---------------------------------------------------------------------------------
 
 
+def check_llm(settings) -> str | None:
+    """Reach the configured LLM before ingesting anything. Returns a problem, or None.
+
+    GET {base_url}/models answers on Ollama, vLLM, LM Studio and most hosted APIs; a
+    server that does not implement it is let through (the questions will show).
+    """
+    import httpx
+
+    from tio2agent.config import LlmBackend
+
+    if settings.llm_backend is LlmBackend.NONE:
+        return "未配置大模型：在 .env 中设置 TIO2_LLM_BACKEND=openai_compatible 及 TIO2_LLM_*"
+    url = settings.llm_base_url.rstrip("/")
+    headers = {"Authorization": f"Bearer {settings.llm_api_key}"} if settings.llm_api_key else {}
+    try:
+        r = httpx.get(f"{url}/models", headers=headers, timeout=10)
+    except httpx.HTTPError as exc:
+        return (
+            f"连不上大模型服务 {url}（{exc}）。\n"
+            "  · Ollama：先启动服务（打开 Ollama 应用，或运行 ollama serve），再 ollama pull "
+            f"{settings.llm_model}\n"
+            "  · 其他服务：检查 TIO2_LLM_BASE_URL 和端口"
+        )
+    if r.status_code in (401, 403):
+        return f"大模型服务拒绝访问（{r.status_code}）：检查 TIO2_LLM_API_KEY"
+    if r.status_code == 200:
+        try:
+            ids = [m.get("id") for m in r.json().get("data", [])]
+        except (ValueError, AttributeError):
+            ids = []
+        if ids and settings.llm_model not in ids:
+            return (
+                f"服务上没有模型 {settings.llm_model}，现有：{', '.join(map(str, ids[:10]))}。\n"
+                f"  · Ollama：ollama pull {settings.llm_model}，或把 TIO2_LLM_MODEL 改成上面的某一个"
+            )
+    return None
+
+
 def evaluate(
     dataset_path: Path = DEFAULT_DATASET,
     *,
@@ -129,6 +167,8 @@ def evaluate(
     items = [i for i in load_dataset(dataset_path) if only is None or i["id"] in only]
     with tempfile.TemporaryDirectory() as tmp:
         settings = Settings(_env_file=env_file, data_dir=Path(tmp), max_upload_mb=200, max_pages=2000)
+        if chat_model is None and (problem := check_llm(settings)):
+            raise SystemExit(f"错误：{problem}")
         has_ocr = settings.ocr_backend is not OcrBackend.NONE
         with TestClient(create_app(settings, chat_model=chat_model)) as client:
             for pdf in sorted({i["pdf"] for i in items}):
