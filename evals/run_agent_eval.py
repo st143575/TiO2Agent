@@ -10,7 +10,8 @@ Each item in evals/datasets/agent_gold.jsonl may expect:
     values     numbers the answer must report as verified values (value, or low/high;
                ``tolerance`` absolute, default 1e-6 relative)
     citations  locations the citations must cover: "0026" (description paragraph),
-               "权利要求8", "扉页著录项", "摘要"
+               "权利要求8", "扉页著录项", "摘要". A description paragraph that restates a
+               claim (claims[].related_paragraphs of the structure) also covers that claim.
     keywords   strings the answer text must contain
     status     default "answered" (partial also accepted); "insufficient_evidence"
                for questions the documents do not answer
@@ -80,7 +81,18 @@ def _decimals(x: float) -> int:
     return len(s.split(".")[1]) if "." in s else 0
 
 
-def score(item: dict, response: dict) -> dict:
+def covered_locations(citations: list[dict], restates: dict[tuple[str, str], set[str]] | None = None) -> set[str]:
+    """Every location the citations point at, plus claims restated by cited paragraphs."""
+    covered: set[str] = set()
+    for c in citations:
+        tokens = citation_tokens(c["citation"])
+        covered |= tokens
+        for token in tokens:
+            covered |= (restates or {}).get((c.get("doc_id"), token), set())
+    return covered
+
+
+def score(item: dict, response: dict, restates: dict[tuple[str, str], set[str]] | None = None) -> dict:
     expected = item["expected"]
     answer = response["answer"]
     text = answer["answer"]
@@ -94,7 +106,7 @@ def score(item: dict, response: dict) -> dict:
     if expected.get("values"):
         checks["values"] = all(any(_value_matches(v, e) for v in verified) for e in expected["values"])
     if expected.get("citations"):
-        covered = set().union(*(citation_tokens(c["citation"]) for c in answer["citations"])) if answer["citations"] else set()
+        covered = covered_locations(answer["citations"], restates)
         checks["citations"] = all(c in covered for c in expected["citations"])
     if expected.get("keywords"):
         checks["keywords"] = all(k in text for k in expected["keywords"])
@@ -171,9 +183,15 @@ def evaluate(
             raise SystemExit(f"错误：{problem}")
         has_ocr = settings.ocr_backend is not OcrBackend.NONE
         with TestClient(create_app(settings, chat_model=chat_model)) as client:
+            restates: dict[tuple[str, str], set[str]] = defaultdict(set)
             for pdf in sorted({i["pdf"] for i in items}):
                 r = client.post("/api/v1/documents", files={"file": (Path(pdf).name, (ROOT / pdf).read_bytes(), "application/pdf")})
-                _wait(client, r.json()["id"])
+                doc_id = r.json()["id"]
+                _wait(client, doc_id)
+                structure = client.get(f"/api/v1/documents/{doc_id}/structure").json()
+                for claim in structure.get("claims", []):
+                    for paragraph in claim.get("related_paragraphs", []):
+                        restates[(doc_id, paragraph)].add(f"权利要求{claim['number']}")
 
             rows = []
             for item in items:
@@ -196,10 +214,20 @@ def evaluate(
                 response = r.json()
                 rows.append({
                     "id": item["id"], "type": item["type"], "question": item["question"],
-                    **score(item, response),
+                    **score(item, response, restates),
                     "status": response["answer"]["status"],
                     "answer": response["answer"]["answer"],
+                    "values": [
+                        {k: v.get(k) for k in ("label", "display", "source_id", "verified", "note")}
+                        for v in response["answer"]["values"]
+                    ],
+                    "citations": [f"{c['id']} {c['citation']}" for c in response["answer"]["citations"]],
                     "tools": [s["tool"] for s in response["steps"]],
+                    # what the model actually sent and got back, for diagnosing failures
+                    "steps": [
+                        {k: s.get(k) for k in ("tool", "arguments", "ok", "summary", "sources")}
+                        for s in response["steps"]
+                    ],
                     "llm_calls": response["usage"]["llm_calls"],
                     "tokens": response["usage"]["prompt_tokens"] + response["usage"]["completion_tokens"],
                     "seconds": round(elapsed, 1),

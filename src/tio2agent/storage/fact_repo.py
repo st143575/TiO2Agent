@@ -113,6 +113,25 @@ class FactRepository:
             rows = self._conn.execute(sql, params).fetchall()
         return [Fact.model_validate_json(r[0]) for r in rows]
 
+    def vocabulary(self, doc_ids: list[str] | None = None, kind: FactKind | None = None) -> dict[str, list[str]]:
+        """Distinct subjects and names, in document order: what a query can match."""
+        where, params = [], []
+        if doc_ids is not None:
+            if not doc_ids:
+                return {"subjects": [], "names": []}
+            where.append(f"doc_id IN ({','.join('?' * len(doc_ids))})")
+            params += doc_ids
+        if kind is not None:
+            where.append("kind = ?")
+            params.append(FactKind(kind).value)
+        clause = (" WHERE " + " AND ".join(where)) if where else ""
+        with self._lock:
+            rows = self._conn.execute(f"SELECT subject_label, name FROM facts{clause} ORDER BY doc_id, ord", params).fetchall()
+        return {
+            "subjects": list(dict.fromkeys(r[0] for r in rows)),
+            "names": list(dict.fromkeys(r[1] for r in rows)),
+        }
+
     def count(self, doc_id: str | None = None) -> int:
         with self._lock:
             if doc_id is None:

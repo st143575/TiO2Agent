@@ -24,6 +24,7 @@ from tio2agent.ingestion.extraction.quantities import canonical_unit
 from tio2agent.llm import ToolSpec
 
 FINAL_ANSWER = "final_answer"
+_STATUS_TOKEN = re.compile(r"\s*\[(?:answered|partial|insufficient_evidence|incomplete)\]", re.IGNORECASE)
 
 
 class FinalValue(BaseModel):
@@ -72,7 +73,8 @@ def build_answer(final: FinalAnswerArgs, ledger: SourceLedger) -> tuple[AgentAns
         inline.extend(i for i in ids if i not in inline)
         return f"[{', '.join(ids)}]" if ids else ""
 
-    text = CITATION_GROUP.sub(rewrite, final.answer).strip()
+    text = CITATION_GROUP.sub(rewrite, final.answer)
+    text = _STATUS_TOKEN.sub("", text).strip()  # "[insufficient_evidence]" belongs in status
 
     values = []
     for v in final.values:

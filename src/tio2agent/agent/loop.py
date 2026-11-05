@@ -5,6 +5,9 @@ every tool result so far, and either calls tools (results are appended and the l
 continues) or calls ``final_answer`` (checked and returned). Guard rails:
 
     - at most ``max_steps`` LLM calls; the last one forces ``final_answer``;
+    - a tool call written as text ("final_answer\n{...}", "<tool_call>{...}</tool_call>",
+      a fenced JSON block) is turned into a real tool call; smaller models served
+      through Ollama do this often;
     - a reply without any tool call is nudged once towards ``final_answer``, and
       accepted as plain text the second time;
     - tool errors and invalid arguments go back to the model as tool results, so
@@ -14,7 +17,9 @@ continues) or calls ``final_answer`` (checked and returned). Guard rails:
 
 import json
 import logging
+import re
 import time
+import uuid
 from dataclasses import dataclass, field
 
 from pydantic import ValidationError
@@ -26,6 +31,46 @@ from tio2agent.domain import AgentAnswer, AgentStep, AgentUsage, AnswerStatus, S
 from tio2agent.llm import ChatMessage, ChatModel, ToolCall
 
 logger = logging.getLogger(__name__)
+
+_THINK = re.compile(r"<think>.*?</think>", re.DOTALL)
+_FENCE = re.compile(r"```(?:json)?\s*(.*?)```", re.DOTALL)
+
+
+def parse_text_tool_call(text: str | None, names: list[str]) -> ToolCall | None:
+    """A tool call the model wrote into its text instead of the tool-call field.
+
+    Recognized: ``final_answer\n{...}`` / ``final_answer: {...}``, ``{"name": ..., "arguments":
+    {...}}`` (also inside <tool_call> tags or a ```json fence), and a bare ``{"answer": ...}``
+    object (taken as final_answer). Anything else returns None.
+    """
+    if not text:
+        return None
+    t = _THINK.sub("", text).strip()
+    fenced = _FENCE.search(t)
+    if fenced and "{" not in t[: fenced.start()].split("\n")[-1]:
+        t = (t[: fenced.start()] + fenced.group(1)).strip()
+    t = t.replace("<tool_call>", "").replace("</tool_call>", "").strip()
+    start = t.find("{")
+    if start < 0:
+        return None
+    try:
+        obj, _ = json.JSONDecoder().raw_decode(t[start:])
+    except ValueError:
+        return None
+    if not isinstance(obj, dict):
+        return None
+    words = re.split(r"[\s:：`*]+", t[:start].strip())
+    prefix = next((w for w in reversed(words) if w), "")
+    if isinstance(obj.get("name"), str) and obj["name"] in names and "arguments" in obj:
+        name, args = obj["name"], obj["arguments"]
+    elif prefix in names:
+        name, args = prefix, obj
+    elif not prefix and "answer" in obj and FINAL_ANSWER in names:
+        name, args = FINAL_ANSWER, obj
+    else:
+        return None
+    arguments = args if isinstance(args, str) else json.dumps(args, ensure_ascii=False)
+    return ToolCall(id=f"text_{uuid.uuid4().hex[:10]}", name=name, arguments=arguments)
 
 
 @dataclass
@@ -81,6 +126,16 @@ class AgentRunner:
             message = response.message
             messages.append(message)
 
+            if not message.tool_calls:
+                call = parse_text_tool_call(message.content, [*self.registry.names, FINAL_ANSWER])
+                if call is not None:
+                    # Continue as if it had been a proper tool call (the tool result must
+                    # answer an assistant message that carries the call).
+                    message = ChatMessage.assistant(None, [call])
+                    messages[-1] = message
+                    note = f"模型把工具调用 {call.name} 写成了文字，已按工具调用处理"
+                    if note not in warnings:
+                        warnings.append(note)
             if not message.tool_calls:
                 text = (message.content or "").strip()
                 if text and (nudged or last):

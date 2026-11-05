@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field, ValidationError
 from tio2agent.agent.calculator import CalculationError, evaluate
 from tio2agent.agent.catalog import DocumentCatalog
 from tio2agent.agent.ledger import SourceLedger
+from tio2agent.agent.matching import name_candidates, normalize_subject
 from tio2agent.domain import ChunkKind, Fact, FactKind, group_formulations
 from tio2agent.errors import AppError
 from tio2agent.llm import ToolCall, ToolSpec
@@ -28,6 +29,14 @@ from tio2agent.retrieval import SearchService
 from tio2agent.storage import FactRepository
 
 TEXT_EXCERPT_CHARS = 900
+VOCABULARY_SHOWN = 40
+
+
+class ToolError(AppError):
+    """A tool could not do what was asked; the message goes back to the model."""
+
+    code = "TOOL_ERROR"
+    message = "工具调用失败"
 
 
 @dataclass
@@ -36,13 +45,28 @@ class ToolContext:
     doc_ids: list[str] | None              # documents this question may use (None: all)
     labels: dict[str, str] = field(default_factory=dict)  # doc_id -> display label
 
+    def resolve(self, doc: str) -> str:
+        """A doc_id, or a document's label (publication number), -> its doc_id.
+        Unknown values are an error naming the valid ones, never an empty result."""
+        doc = doc.strip()
+        if doc in self.labels:
+            return doc
+        matches = [d for d, label in self.labels.items() if label.lower() == doc.lower()]
+        if len(matches) == 1:
+            return matches[0]
+        known = "、".join(f"{label}（doc_id={d}）" for d, label in self.labels.items()) or "（无）"
+        if len(matches) > 1:
+            raise ToolError(f"有多篇文档的编号是“{doc}”，请用 doc_id：{known}")
+        raise ToolError(f"没有编号或 doc_id 为“{doc}”的文档。可用文档：{known}。不限定文档时不要填 doc_id")
+
     def allowed(self, doc_id: str | None) -> list[str] | None:
         """Combine a tool's own doc_id argument with the request's restriction."""
         if doc_id is None:
             return self.doc_ids
-        if self.doc_ids is not None and doc_id not in self.doc_ids:
-            return []
-        return [doc_id]
+        resolved = self.resolve(doc_id)
+        if self.doc_ids is not None and resolved not in self.doc_ids:
+            raise ToolError(f"文档“{doc_id}”不在本次问答的范围内")
+        return [resolved]
 
 
 @dataclass
@@ -103,7 +127,7 @@ class SearchDocumentsArgs(BaseModel):
     kinds: list[Literal["bibliographic", "abstract", "claim", "paragraph", "embodiment", "table"]] | None = Field(
         None, description="只检索这些类型；不填则全部"
     )
-    doc_id: str | None = Field(None, description="只检索这一篇文档")
+    doc_id: str | None = Field(None, description="只检索这一篇文档：填编号（如 CN116694108A）；不限定文档时不要填")
 
 
 class SearchDocumentsTool(Tool):
@@ -140,6 +164,8 @@ class SearchDocumentsTool(Tool):
         content: dict[str, Any] = {"results": items}
         if result.warnings:
             content["warnings"] = result.warnings
+        if not items:
+            content["hint"] = "没有命中。换更短或不同的关键词再试；如果填了 kinds 或 doc_id，去掉再试。"
         return ToolResult(content, f"检索“{args.query}”：{len(items)} 条", ids)
 
 
@@ -150,7 +176,7 @@ class QueryFactsArgs(BaseModel):
         None, description="component 配方组分，parameter 工艺参数，option 可选材料，result 测试结果"
     )
     step: str | None = Field(None, description="工艺步骤，如 S1")
-    doc_id: str | None = Field(None, description="只查这一篇文档")
+    doc_id: str | None = Field(None, description="只查这一篇文档：填编号（如 CN116694108A）；不限定文档时不要填")
     limit: int = Field(30, ge=1, le=60)
 
 
@@ -167,24 +193,33 @@ class QueryFactsTool(Tool):
 
     def run(self, args: QueryFactsArgs, ctx: ToolContext) -> ToolResult:
         doc_ids = ctx.allowed(args.doc_id)
-        found = self.facts.query(
-            doc_ids=doc_ids, kind=FactKind(args.kind) if args.kind else None,
-            subject=_subject(args.subject), name=args.name, step=args.step, limit=args.limit + 1,
-        )
+        kind = FactKind(args.kind) if args.kind else None
+        subject = normalize_subject(args.subject)
+        found, used = [], None
+        for candidate in name_candidates(args.name):  # "反应釜温度" -> "温度", "pH值" -> "pH"
+            found = self.facts.query(
+                doc_ids=doc_ids, kind=kind, subject=subject, name=candidate, step=args.step, limit=args.limit + 1
+            )
+            if found:
+                used = candidate
+                break
         truncated = len(found) > args.limit
         found = found[: args.limit]
         items = [_fact_item(f, ctx) for f in found]
         content: dict[str, Any] = {"facts": items}
+        if used and used != args.name:
+            content["matched_name"] = f"没有名称包含“{args.name}”的事实，按“{used}”查询"
         if truncated:
             content["truncated"] = f"结果超过 {args.limit} 条，请加 subject / kind / step 缩小范围"
         if not items:
-            content["hint"] = "没有匹配的事实。试试更短的名称、去掉 step，或用 search_documents 检索原文。"
-        return ToolResult(content, f"事实 {len(items)} 条" + ("（已截断）" if truncated else ""), [i["id"] for i in items])
+            content["hint"] = _no_facts_hint(self.facts, doc_ids, kind, subject, args.step)
+        summary = f"事实 {len(items)} 条" + (f"（按“{used}”）" if used and used != args.name else "")
+        return ToolResult(content, summary + ("（已截断）" if truncated else ""), [i["id"] for i in items])
 
 
 class GetFormulationArgs(BaseModel):
     subject: str = Field(description="实施例或权利要求：实施例1 / E1 / 权利要求2")
-    doc_id: str | None = Field(None, description="只查这一篇文档")
+    doc_id: str | None = Field(None, description="只查这一篇文档：填编号（如 CN116694108A）；不限定文档时不要填")
 
 
 class GetFormulationTool(Tool):
@@ -196,9 +231,8 @@ class GetFormulationTool(Tool):
         self.facts = facts
 
     def run(self, args: GetFormulationArgs, ctx: ToolContext) -> ToolResult:
-        found = self.facts.query(
-            doc_ids=ctx.allowed(args.doc_id), kind=FactKind.COMPONENT, subject=_subject(args.subject)
-        )
+        doc_ids = ctx.allowed(args.doc_id)
+        found = self.facts.query(doc_ids=doc_ids, kind=FactKind.COMPONENT, subject=normalize_subject(args.subject))
         out, ids = [], []
         for formulation in group_formulations(found):
             components = [_fact_item(c, ctx) for c in formulation.components]
@@ -219,7 +253,10 @@ class GetFormulationTool(Tool):
             out.append(item)
         content: dict[str, Any] = {"formulations": out}
         if not out:
-            content["hint"] = "没有找到配方。用 query_facts(kind='component') 看看有哪些 subject。"
+            subjects = self.facts.vocabulary(doc_ids, FactKind.COMPONENT)["subjects"]
+            content["hint"] = (
+                f"没有“{args.subject}”的配方。有配方的 subject：{'、'.join(subjects) or '（无）'}"
+            )
         return ToolResult(content, f"配方 {len(out)} 个", ids)
 
 
@@ -259,13 +296,6 @@ class CalculateTool(Tool):
 
 
 # --- registry -----------------------------------------------------------------------------
-
-
-class ToolError(AppError):
-    """A tool could not do what was asked; the message goes back to the model."""
-
-    code = "TOOL_ERROR"
-    message = "工具调用失败"
 
 
 class ToolRegistry:
@@ -318,14 +348,22 @@ def _error(arguments: dict[str, Any] | str, message: str) -> ToolOutcome:
     return ToolOutcome(False, json.dumps({"error": message}, ensure_ascii=False), message, arguments)
 
 
-def _subject(subject: str | None) -> str | None:
-    """Accept "实施例1", "E1", "权利要求1", "claim:1", "claim 1"."""
-    if not subject:
-        return None
-    s = subject.strip().replace(" ", "")
-    if s.lower().startswith("claim") and not s.lower().startswith("claim:"):
-        s = "claim:" + s[5:]
-    return s
+def _no_facts_hint(
+    facts: FactRepository, doc_ids: list[str] | None, kind: FactKind | None, subject: str | None, step: str | None
+) -> str:
+    """Say what does exist, so the model can retry with a real name or subject."""
+    vocab = facts.vocabulary(doc_ids, kind)
+    if not vocab["names"]:
+        return "事实库中没有这类事实，请用 search_documents 检索原文。"
+    parts = ["没有匹配的事实。"]
+    if subject and subject not in vocab["subjects"] and not subject.startswith(("E", "claim:")):
+        parts.append(f"可用的 subject：{'、'.join(vocab['subjects'])}。")
+    names = vocab["names"][:VOCABULARY_SHOWN]
+    parts.append(f"事实库中的名称：{'、'.join(names)}{'……' if len(vocab['names']) > len(names) else ''}。")
+    if step:
+        parts.append("也可以去掉 step 再查。")
+    parts.append("用这些名称重新查询，或用 search_documents 检索原文。")
+    return "".join(parts)
 
 
 def _fact_item(f: Fact, ctx: ToolContext) -> dict[str, Any]:
