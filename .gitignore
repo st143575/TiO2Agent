@@ -13,9 +13,8 @@ data/*.db*
 tests/fixtures/
 docs/
 !docs/.gitkeep
-Dockerfile
-.dockerignore
 __pycache__/
 .coverage
 evals/reports/*
 !evals/reports/.gitkeep
+run.sh

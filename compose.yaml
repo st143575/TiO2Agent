@@ -1,9 +1,18 @@
-# TiO2Agent
+# TiO2Agent: one-command deployment
 #
-#   docker compose up -d                  # app only, CPU, OCR off
-#   docker compose --profile ocr up -d    # app + PaddleOCR-VL (NVIDIA GPU, CUDA >= 12.6)
+#   docker compose up -d --build              # API on http://localhost:8000 (docs: /docs)
 #
-# With the "ocr" profile also set TIO2_OCR_BACKEND=paddleocr_vl (see .env.example).
+# Optional parts (combine as needed):
+#   + LLM inside Compose (Ollama, pulls TIO2_LLM_MODEL on first start):
+#       docker compose -f compose.yaml -f compose.ollama.yaml up -d --build
+#     On an NVIDIA host add -f compose.ollama-gpu.yaml. On a Mac, run Ollama natively
+#     instead (Docker cannot use the Apple GPU) and set TIO2_LLM_BACKEND=openai_compatible
+#     in .env: the app reaches it at host.docker.internal.
+#   + OCR for image tables (PaddleOCR-VL, NVIDIA GPU, CUDA >= 12.6):
+#       docker compose --profile ocr up -d    and set TIO2_OCR_BACKEND=paddleocr_vl
+#
+# Settings come from .env (copy .env.example). Data (PDFs, SQLite, results) lives in
+# the named volume "app-data" and survives restarts and rebuilds.
 # Requires Docker Compose v2.20+ (optional depends_on).
 
 name: tio2agent
@@ -19,14 +28,18 @@ services:
       TIO2_MAX_UPLOAD_MB: ${TIO2_MAX_UPLOAD_MB:-50}
       TIO2_MAX_PAGES: ${TIO2_MAX_PAGES:-200}
       TIO2_INGEST_WORKERS: ${TIO2_INGEST_WORKERS:-2}
+      # OCR
       TIO2_OCR_BACKEND: ${TIO2_OCR_BACKEND:-none}
       TIO2_OCR_BASE_URL: http://paddleocr-vl-api:8080
       TIO2_OCR_TIMEOUT_S: ${TIO2_OCR_TIMEOUT_S:-300}
+      # Chunking and search
       TIO2_CHUNK_MAX_CHARS: ${TIO2_CHUNK_MAX_CHARS:-600}
       TIO2_SEARCH_TOP_K: ${TIO2_SEARCH_TOP_K:-8}
+      TIO2_SEARCH_RRF_K: ${TIO2_SEARCH_RRF_K:-60}
+      # Services on the host or elsewhere. The DOCKER_*_BASE_URL variables are separate
+      # from TIO2_*_BASE_URL (local runs): inside the container "localhost" is the
+      # container itself, and a server on the host is host.docker.internal.
       TIO2_EMBEDDING_BACKEND: ${TIO2_EMBEDDING_BACKEND:-none}
-      # Separate from TIO2_EMBEDDING_BASE_URL (local runs): inside the container,
-      # "localhost" is the container itself; a server on the host is host.docker.internal.
       TIO2_EMBEDDING_BASE_URL: ${DOCKER_EMBEDDING_BASE_URL:-http://host.docker.internal:11434/v1}
       TIO2_EMBEDDING_MODEL: ${TIO2_EMBEDDING_MODEL:-bge-m3}
       TIO2_EMBEDDING_API_KEY: ${TIO2_EMBEDDING_API_KEY:-}
@@ -40,11 +53,14 @@ services:
       TIO2_LLM_MODEL: ${TIO2_LLM_MODEL:-qwen3:8b}
       TIO2_LLM_API_KEY: ${TIO2_LLM_API_KEY:-}
       TIO2_LLM_TEMPERATURE: ${TIO2_LLM_TEMPERATURE:-0}
+      TIO2_LLM_MAX_TOKENS: ${TIO2_LLM_MAX_TOKENS:-2048}
       TIO2_LLM_TIMEOUT_S: ${TIO2_LLM_TIMEOUT_S:-120}
+      # Agent
       TIO2_AGENT_MAX_STEPS: ${TIO2_AGENT_MAX_STEPS:-8}
       TIO2_AGENT_HISTORY_TURNS: ${TIO2_AGENT_HISTORY_TURNS:-4}
+      TIO2_AGENT_TOOL_RESULT_CHARS: ${TIO2_AGENT_TOOL_RESULT_CHARS:-6000}
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:host-gateway"   # Linux; Docker Desktop provides it already
     volumes:
       - app-data:/app/data
     depends_on:

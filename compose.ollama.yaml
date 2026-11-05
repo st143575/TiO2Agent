@@ -1,0 +1,60 @@
+# Run the Agent's LLM (and optionally embeddings) inside Compose with Ollama:
+#
+#   docker compose -f compose.yaml -f compose.ollama.yaml up -d --build
+#
+# The first start pulls TIO2_LLM_MODEL (qwen3:8b: about 5 GB) into the "ollama-models"
+# volume; the app starts once the pull has finished. With TIO2_EMBEDDING_BACKEND=
+# openai_compatible in .env, TIO2_EMBEDDING_MODEL is pulled and used too.
+#
+# CPU only by default. NVIDIA GPU: add -f compose.ollama-gpu.yaml. On a Mac, Docker
+# cannot use the Apple GPU: run Ollama natively instead of this file.
+
+services:
+  app:
+    environment:
+      TIO2_LLM_BACKEND: openai_compatible
+      TIO2_LLM_BASE_URL: http://ollama:11434/v1
+      TIO2_EMBEDDING_BASE_URL: http://ollama:11434/v1
+    depends_on:
+      ollama-pull:
+        condition: service_completed_successfully
+
+  ollama:
+    image: ollama/ollama:${OLLAMA_IMAGE_TAG:-latest}
+    environment:
+      # The Agent sends ~2k tokens of instructions and tools, plus tool results; the
+      # 4096-token default would silently cut the start of the conversation.
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH:-16384}
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-30m}
+    ports:
+      - "127.0.0.1:${OLLAMA_PORT:-11435}:11434"   # 11435: does not clash with a native Ollama
+    volumes:
+      - ollama-models:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+
+  # One-shot job: pull the models, then exit. Re-running is cheap (already pulled).
+  ollama-pull:
+    image: ollama/ollama:${OLLAMA_IMAGE_TAG:-latest}
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      LLM_MODEL: ${TIO2_LLM_MODEL:-qwen3:8b}
+      EMBEDDING_BACKEND: ${TIO2_EMBEDDING_BACKEND:-none}
+      EMBEDDING_MODEL: ${TIO2_EMBEDDING_MODEL:-bge-m3}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        ollama pull "$$LLM_MODEL" &&
+        if [ "$$EMBEDDING_BACKEND" != "none" ]; then ollama pull "$$EMBEDDING_MODEL"; fi
+    restart: "no"
+
+volumes:
+  ollama-models:
