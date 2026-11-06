@@ -83,3 +83,43 @@ def squash(text: str) -> str:
     有的PDF排版时为了美观，会在标题中添加空格，如"说　明　书"，需要消除这些空格。
     """
     return re.sub(r"\s+", "", text.translate(_SPACES))
+
+
+# --- numbering ---------------------------------------------------------------------
+
+CN_DIGITS = "零一二两三四五六七八九十"
+_CN_VALUES = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9}
+
+
+def chinese_number(text: str) -> int | None:
+    """"三" -> 3, "十" -> 10, "十二" -> 12, "二十一" -> 21; None if not a number up to 99."""
+    if not text or any(c not in _CN_VALUES and c != "十" for c in text):
+        return None
+    if "十" not in text:
+        return _CN_VALUES[text] if len(text) == 1 else None
+    tens, _, ones = text.partition("十")
+    if len(tens) > 1 or len(ones) > 1:
+        return None
+    return (_CN_VALUES[tens] if tens else 1) * 10 + (_CN_VALUES[ones] if ones else 0)
+
+
+def parse_number(text: str) -> int | None:
+    """"3" or "三" -> 3."""
+    text = text.strip()
+    return int(text) if text.isdigit() else chinese_number(text)
+
+
+# Step markers at the start of a paragraph or claim line: "S1、", "步骤1：", "步骤一、",
+# "第一步，". Not "步骤1中…" (a reference to a step), hence the required separator.
+STEP_MARKER = re.compile(
+    rf"^(?:S\s*(?P<s>\d+)|步骤\s*(?P<b>\d+|[{CN_DIGITS}]+)|第\s*(?P<d>\d+|[{CN_DIGITS}]+)\s*步)\s*[、.．:：，,]"
+)
+
+
+def step_id(text: str) -> str | None:
+    """The step a paragraph or claim line starts with, normalized to "S1", "S2", …"""
+    m = STEP_MARKER.match(text)
+    if not m:
+        return None
+    n = parse_number(m.group("s") or m.group("b") or m.group("d"))
+    return f"S{n}" if n is not None else None

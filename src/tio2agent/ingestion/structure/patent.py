@@ -4,6 +4,15 @@
     权利要求书     claims        -> Claim[]                 (patent_claims.py)
     说明书         description   -> Section[] / Paragraph[] (this module)
                                    Embodiment[] from 实施例N / 对比例 headings
+
+Embodiments run from their heading to the next heading, a boilerplate paragraph,
+or (for examples) a paragraph that discusses several examples at once ("上表为对
+实施例1-实施例3…"), which belongs to the test section, not to the last example.
+Headings and step markers come in several styles across patents:
+
+    实施例1 / 实施例 2： / 实施例一 / 具体实施例3      -> E1, E2, E1, E3
+    对比例1 / 对比案例 / 对比实验 / 对比试验          -> C1, …
+    S1、 / 步骤1： / 步骤一、 / 第一步，              -> step "S1"
     OCR tables                   -> TableRef[], attached to the empty paragraph
                                    that holds the image (e.g. [0043])
 
@@ -33,7 +42,14 @@ from tio2agent.ingestion.structure.base import (
     page_text,
 )
 from tio2agent.ingestion.structure.layout import CleanPage, clean_patent_page
-from tio2agent.ingestion.structure.normalize import join_lines, normalize_text, squash
+from tio2agent.ingestion.structure.normalize import (
+    CN_DIGITS,
+    join_lines,
+    normalize_text,
+    parse_number,
+    squash,
+    step_id,
+)
 from tio2agent.ingestion.structure.patent_claims import parse_claims
 from tio2agent.ingestion.structure.patent_front import is_front_page, parse_front_page
 
@@ -51,18 +67,29 @@ SECTION_HEADINGS: dict[str, SectionKind] = {
 
 # "(一)解决的技术问题", "（三）有益效果"
 _SUBHEADING = re.compile(r"^[(（]([一二三四五六七八九十]+)[)）]\s*(.{1,20})$")
-# "实施例1", "实施例 2：", "对比例1", "对比案例"; not "实施例1中…"
-_EMBODIMENT = re.compile(r"^(实施例|对比实施例|对比例|对比案例|比较例)\s*(\d+)?\s*(?:$|[:：、.．]\s*(.*)$)")
-_STEP = re.compile(r"^(S\d+|步骤\s*\d+)\s*[、.．:：]")
+# "实施例1", "实施例 2：", "实施例一", "具体实施例3", "对比例1", "对比案例", "对比实验";
+# not "实施例1中…" (a reference inside a sentence)
+_EMBODIMENT = re.compile(
+    rf"^(?:具体)?(实施例|对比实施例|对比例|对比案例|对比实验|对比试验|比较例)"
+    rf"\s*(\d+|[{CN_DIGITS}]+)?\s*(?:$|[:：、.．]\s*(.*)$)"
+)
+# A paragraph about several examples at once: "实施例1-实施例3", "实施例1、实施例2和实施例3",
+# "实施例1至3", "各实施例".
+_SEVERAL_EXAMPLES = re.compile(r"实施例\s*\d+\s*(?:[-~～至到、和与及,，]\s*(?:实施例)?\s*\d+)+|各实施例")
 _BOILERPLATE = (
     "下面将结合本发明实施例",
     "下面将结合本实用新型实施例",
+    "下面将对本发明实施例",
     "需要说明的是",
     "尽管已经示出和描述",
     "以上所述",
     "以上实施例仅用以",
+    "以上显示和描述了本发明",
     "最后应说明的是",
     "对于本领域技术人员而言，显然本发明不限于",
+    "在本发明的描述中，需要理解的是",
+    "同时本说明书中未作详细描述的内容",
+    "本说明书中未作详细描述的内容",
 )
 
 
@@ -179,7 +206,6 @@ def _parse_description(
             role = ParagraphRole.EMBODIMENT_HEADING
         elif text.startswith(_BOILERPLATE):
             role = ParagraphRole.BOILERPLATE
-        step = _STEP.match(text)
         paragraphs.append(
             Paragraph(
                 id=pid,
@@ -189,7 +215,7 @@ def _parse_description(
                 text=text,
                 raw=raw,
                 pages=sorted({p for p, _ in body}),
-                step=re.sub(r"\s+", "", step.group(1)) if step else None,
+                step=step_id(text),
             )
         )
 
@@ -219,7 +245,7 @@ def _group_embodiments(paragraphs: list[Paragraph]) -> list[Embodiment]:
         if m:
             kind = EmbodimentKind.EXAMPLE if m.group(1) == "实施例" else EmbodimentKind.COMPARATIVE
             counters[kind] += 1
-            number = int(m.group(2)) if m.group(2) else None
+            number = parse_number(m.group(2)) if m.group(2) else None
             prefix = "E" if kind is EmbodimentKind.EXAMPLE else "C"
             current = Embodiment(
                 id=f"{prefix}{number if number is not None else counters[kind]}",
@@ -235,11 +261,25 @@ def _group_embodiments(paragraphs: list[Paragraph]) -> list[Embodiment]:
                 continue
         elif p.role is ParagraphRole.BOILERPLATE:
             current = None
+        elif (
+            current is not None
+            and current.kind is EmbodimentKind.EXAMPLE
+            and _SEVERAL_EXAMPLES.search(p.text)
+        ):
+            # Test results for all examples: the example ended before this paragraph,
+            # and so did an image placeholder right before it (the results table).
+            while current.paragraph_ids and not _by_id(paragraphs, current.paragraph_ids[-1]).text:
+                _by_id(paragraphs, current.paragraph_ids.pop()).embodiment = None
+            current = None
         if current is not None:
             p.embodiment = current.id
             current.paragraph_ids.append(p.id)
             current.pages = sorted(set(current.pages) | set(p.pages))
     return embodiments
+
+
+def _by_id(paragraphs: list[Paragraph], pid: str) -> Paragraph:
+    return next(p for p in paragraphs if p.id == pid)
 
 
 # --- links -----------------------------------------------------------------------------

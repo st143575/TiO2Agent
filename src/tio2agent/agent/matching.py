@@ -10,6 +10,7 @@ fallback candidates, tried in order until one matches.
 import re
 
 from tio2agent.ingestion.extraction.quantities import NAME_ALIASES
+from tio2agent.ingestion.structure.normalize import chinese_number
 
 # Endings that describe the quantity rather than name it.
 _SUFFIXES = (
@@ -30,20 +31,7 @@ _SYNONYMS = {
 # If one of these occurs inside a longer phrase, it is the name ("S1搅拌温度" -> 温度).
 _KEYWORDS = ("加入时间", "搅拌时间", "研磨时间", "温度", "转速", "pH", "色差")
 
-_CN_DIGITS = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9}
 _CN_NUMBER = re.compile(r"(实施例|对比例|比较例|权利要求)\s*第?\s*([零一二两三四五六七八九十]+)")
-
-
-def chinese_number(text: str) -> int | None:
-    """"三" -> 3, "十" -> 10, "十二" -> 12, "二十一" -> 21; None if not a number up to 99."""
-    if not text or any(c not in _CN_DIGITS and c != "十" for c in text):
-        return None
-    if "十" not in text:
-        return _CN_DIGITS[text] if len(text) == 1 else None
-    tens, _, ones = text.partition("十")
-    if len(tens) > 1 or len(ones) > 1:
-        return None
-    return (_CN_DIGITS[tens] if tens else 1) * 10 + (_CN_DIGITS[ones] if ones else 0)
 
 
 def normalize_subject(subject: str | None) -> str | None:
