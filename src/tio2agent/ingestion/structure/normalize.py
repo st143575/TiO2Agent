@@ -109,17 +109,14 @@ def parse_number(text: str) -> int | None:
     return int(text) if text.isdigit() else chinese_number(text)
 
 
-# Step markers at the start of a paragraph or claim line: "S1、", "步骤1：", "步骤一、",
-# "第一步，". Not "步骤1中…" (a reference to a step), hence the required separator.
-STEP_MARKER = re.compile(
-    rf"^(?:S\s*(?P<s>\d+)|步骤\s*(?P<b>\d+|[{CN_DIGITS}]+)|第\s*(?P<d>\d+|[{CN_DIGITS}]+)\s*步)\s*[、.．:：，,]"
-)
+# Step markers at the start of a paragraph or claim line. Not "步骤1中…" (a reference
+# to a step), hence the separator:
+#   S1、    CN116694108A, CN115466527A, CN115403940A (description and method claim)
+#   步骤1： CN114573021A (description [0025] and claim 5)
+STEP_MARKER = re.compile(r"^(?:S(?P<s>\d+)、|步骤(?P<b>\d+)：)")
 
 
 def step_id(text: str) -> str | None:
     """The step a paragraph or claim line starts with, normalized to "S1", "S2", …"""
     m = STEP_MARKER.match(text)
-    if not m:
-        return None
-    n = parse_number(m.group("s") or m.group("b") or m.group("d"))
-    return f"S{n}" if n is not None else None
+    return f"S{int(m.group('s') or m.group('b'))}" if m else None

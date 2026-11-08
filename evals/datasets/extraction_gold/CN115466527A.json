@@ -1,0 +1,1952 @@
+{
+ "doc": "CN115466527A",
+ "title": "一种过滤性好的腈纶化纤用钛白粉及其生产方法",
+ "file": "一种过滤性好的腈纶化纤用钛白粉及其生 产方法.pdf",
+ "status": "draft",
+ "scope": {
+  "claims": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "paragraphs": [
+   "0027",
+   "0028",
+   "0029",
+   "0030",
+   "0032",
+   "0033",
+   "0034",
+   "0035",
+   "0037",
+   "0038",
+   "0039",
+   "0040"
+  ],
+  "figures": [
+   "图1"
+  ]
+ },
+ "excluded": [
+  {
+   "paragraphs": "[0007]-[0018]",
+   "reason": "发明内容：逐字复述权利要求1-8"
+  },
+  {
+   "paragraphs": "[0021]-[0022]",
+   "reason": "有益效果：复述权利要求1的范围"
+  },
+  {
+   "paragraphs": "[0042]-[0043]",
+   "reason": "对比案例：“30名工作人员”“各10份”是测试安排，不是配方；数据在图1"
+  }
+ ],
+ "notes": [
+  {
+   "type": "missing_amount",
+   "where": {
+    "paragraph": "0033"
+   },
+   "text": "实施例2 S2写“加入沉淀剂”，没有用量；权利要求3（与实施例2其余用量一致）为12份。标准答案不补。"
+  },
+  {
+   "type": "missing_amount",
+   "where": {
+    "paragraph": "0038"
+   },
+   "text": "实施例3 S2同样没有沉淀剂用量；权利要求4为16份。标准答案不补。"
+  },
+  {
+   "type": "claim_order",
+   "where": {
+    "claim": 2
+   },
+   "text": "权利要求2对应实施例1（55份），权利要求3对应实施例2（50份，即范围下限），权利要求4对应实施例3（上限）。"
+  },
+  {
+   "type": "figure_only",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   },
+   "text": "检测结果只在图1（第7页图片）中；结果事实标 requires_ocr。"
+  }
+ ],
+ "facts": [
+  {
+   "id": "F001",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 50,
+   "high": 60,
+   "unit": "份",
+   "evidence": "锐钛型二氧化钛50-60份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F002",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 30,
+   "high": 50,
+   "unit": "份",
+   "evidence": "去离子水30-50份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F003",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 20,
+   "high": 30,
+   "unit": "份",
+   "evidence": "分散剂20-30份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F004",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "沉淀剂",
+   "qualifier": null,
+   "low": 12,
+   "high": 16,
+   "unit": "份",
+   "evidence": "沉淀剂12-16份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F005",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 7,
+   "high": 9,
+   "unit": "份",
+   "evidence": "锆盐7-9份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F006",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 5,
+   "high": 7,
+   "unit": "份",
+   "evidence": "铝盐5-7份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F007",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 13,
+   "high": 15,
+   "unit": "份",
+   "evidence": "二氧化硅13-15份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F008",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.6,
+   "high": 0.8,
+   "unit": "份",
+   "evidence": "润滑剂0.6-0.8份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F009",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.7,
+   "high": 0.9,
+   "unit": "份",
+   "evidence": "消泡剂0.7-0.9份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F010",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 55,
+   "high": 55,
+   "unit": "份",
+   "evidence": "锐钛型二氧化钛55份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F011",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "份",
+   "evidence": "去离子水40份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F012",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 25,
+   "high": 25,
+   "unit": "份",
+   "evidence": "分散剂25份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F013",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "沉淀剂",
+   "qualifier": null,
+   "low": 14,
+   "high": 14,
+   "unit": "份",
+   "evidence": "沉淀剂14份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F014",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": "份",
+   "evidence": "锆盐8份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F015",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 6,
+   "high": 6,
+   "unit": "份",
+   "evidence": "铝盐6份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F016",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 14,
+   "high": 14,
+   "unit": "份",
+   "evidence": "二氧化硅14份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F017",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.7,
+   "high": 0.7,
+   "unit": "份",
+   "evidence": "润滑剂0.7份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F018",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.8,
+   "high": 0.8,
+   "unit": "份",
+   "evidence": "消泡剂0.8份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F019",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "份",
+   "evidence": "锐钛型二氧化钛50份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F020",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "份",
+   "evidence": "去离子水30份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F021",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 20,
+   "high": 20,
+   "unit": "份",
+   "evidence": "分散剂20份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F022",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "沉淀剂",
+   "qualifier": null,
+   "low": 12,
+   "high": 12,
+   "unit": "份",
+   "evidence": "沉淀剂12份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F023",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "锆盐7份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F024",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "铝盐5份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F025",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 13,
+   "high": 13,
+   "unit": "份",
+   "evidence": "二氧化硅13份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F026",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.6,
+   "high": 0.6,
+   "unit": "份",
+   "evidence": "润滑剂0.6份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F027",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.7,
+   "high": 0.7,
+   "unit": "份",
+   "evidence": "消泡剂0.7份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F028",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "份",
+   "evidence": "锐钛型二氧化钛60份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F029",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "份",
+   "evidence": "去离子水50份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F030",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "份",
+   "evidence": "分散剂30份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F031",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "沉淀剂",
+   "qualifier": null,
+   "low": 16,
+   "high": 16,
+   "unit": "份",
+   "evidence": "沉淀剂16份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F032",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 9,
+   "high": 9,
+   "unit": "份",
+   "evidence": "锆盐9份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F033",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "铝盐7份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F034",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 15,
+   "high": 15,
+   "unit": "份",
+   "evidence": "二氧化硅15份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F035",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.8,
+   "high": 0.8,
+   "unit": "份",
+   "evidence": "润滑剂0.8份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F036",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.9,
+   "high": 0.9,
+   "unit": "份",
+   "evidence": "消泡剂0.9份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F037",
+   "kind": "option",
+   "subject": "claim:5",
+   "step": null,
+   "name": "分散剂",
+   "qualifier": null,
+   "options": [
+    "聚乙二醇",
+    "氧化铝",
+    "氧化镁"
+   ],
+   "evidence": "所述分散剂为聚乙二醇、氧化铝或氧化镁",
+   "where": {
+    "claim": 5
+   }
+  },
+  {
+   "id": "F038",
+   "kind": "option",
+   "subject": "claim:5",
+   "step": null,
+   "name": "沉淀剂",
+   "qualifier": null,
+   "options": [
+    "草酸盐",
+    "氢氧化物",
+    "磷酸盐"
+   ],
+   "evidence": "所述沉淀剂为草酸盐、氢氧化物或磷酸盐中的一种或多种的组合",
+   "where": {
+    "claim": 5
+   }
+  },
+  {
+   "id": "F039",
+   "kind": "option",
+   "subject": "claim:6",
+   "step": null,
+   "name": "润滑剂",
+   "qualifier": null,
+   "options": [
+    "季戊四醇",
+    "硅酸酯",
+    "甘油"
+   ],
+   "evidence": "所述润滑剂为季戊四醇、硅酸酯或甘油",
+   "where": {
+    "claim": 6
+   }
+  },
+  {
+   "id": "F040",
+   "kind": "option",
+   "subject": "claim:7",
+   "step": null,
+   "name": "消泡剂",
+   "qualifier": null,
+   "options": [
+    "磷酸三丁酯",
+    "磷酸酯"
+   ],
+   "evidence": "所述消泡剂为磷酸三丁酯或磷酸酯",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F041",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S1",
+   "name": "温度",
+   "qualifier": null,
+   "low": 50,
+   "high": 60,
+   "unit": "℃",
+   "evidence": "温度设为50℃-60℃",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F042",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S1",
+   "name": "转速",
+   "qualifier": null,
+   "low": 150,
+   "high": 250,
+   "unit": "rpm",
+   "evidence": "转速设为150-250转/分钟",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F043",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S1",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 40,
+   "unit": "min",
+   "evidence": "搅拌时间为30-40分钟",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F044",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S2",
+   "name": "温度",
+   "qualifier": null,
+   "low": 40,
+   "high": 50,
+   "unit": "℃",
+   "evidence": "温度控制在40℃-50℃",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F045",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 200,
+   "high": 250,
+   "unit": "rpm",
+   "evidence": "转速为200-250转/分钟",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F046",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S2",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 8,
+   "high": 10,
+   "unit": "min",
+   "evidence": "搅拌时间为8-10分钟",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F047",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S2",
+   "name": "静置时间",
+   "qualifier": null,
+   "low": 20,
+   "high": 30,
+   "unit": "min",
+   "evidence": "静置20-30分钟",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F048",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 40,
+   "high": 60,
+   "unit": "℃",
+   "evidence": "升温至40-60℃",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F049",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "锆盐",
+   "low": 8,
+   "high": 10,
+   "unit": "min",
+   "evidence": "在搅拌8-10分钟时，缓慢加入锆盐",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F050",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入锆盐后",
+   "low": 7,
+   "high": 9,
+   "unit": null,
+   "evidence": "缓慢加入锆盐，将pH值调节至7-9",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F051",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "铝盐",
+   "low": 20,
+   "high": 30,
+   "unit": "min",
+   "evidence": "在搅拌至20-30分钟时，缓慢加入铝盐",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F052",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入铝盐后",
+   "low": 7,
+   "high": 8,
+   "unit": null,
+   "evidence": "缓慢加入铝盐，将pH值调节至7-8",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F053",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S4",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 40,
+   "unit": "min",
+   "evidence": "搅拌30-40分钟",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F054",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S1",
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 55,
+   "high": 55,
+   "unit": "份",
+   "evidence": "55份锐钛型二氧化钛",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F055",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S1",
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "份",
+   "evidence": "40份去离子水",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F056",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S1",
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 25,
+   "high": 25,
+   "unit": "份",
+   "evidence": "25份分散剂",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F057",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S1",
+   "name": "温度",
+   "qualifier": null,
+   "low": 55,
+   "high": 55,
+   "unit": "℃",
+   "evidence": "温度设为55℃",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F058",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S1",
+   "name": "转速",
+   "qualifier": null,
+   "low": 200,
+   "high": 200,
+   "unit": "rpm",
+   "evidence": "转速设为200转/分钟",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F059",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S1",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 35,
+   "high": 35,
+   "unit": "min",
+   "evidence": "搅拌时间为35分钟",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F060",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S2",
+   "name": "沉淀剂",
+   "qualifier": null,
+   "low": 14,
+   "high": 14,
+   "unit": "份",
+   "evidence": "14份沉淀剂",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F061",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S2",
+   "name": "温度",
+   "qualifier": null,
+   "low": 45,
+   "high": 45,
+   "unit": "℃",
+   "evidence": "温度控制在45℃",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F062",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 225,
+   "high": 225,
+   "unit": "rpm",
+   "evidence": "转速为225转/分钟",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F063",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S2",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 9,
+   "high": 9,
+   "unit": "min",
+   "evidence": "搅拌时间为9分钟",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F064",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S2",
+   "name": "静置时间",
+   "qualifier": null,
+   "low": 25,
+   "high": 25,
+   "unit": "min",
+   "evidence": "静置25分钟",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F065",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "℃",
+   "evidence": "升温至50℃",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F066",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "锆盐",
+   "low": 9,
+   "high": 9,
+   "unit": "min",
+   "evidence": "在搅拌9分钟时，缓慢加入8份锆盐",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F067",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S3",
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": "份",
+   "evidence": "8份锆盐",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F068",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入锆盐后",
+   "low": 8,
+   "high": 8,
+   "unit": null,
+   "evidence": "8份锆盐，将pH值调节至8",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F069",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "铝盐",
+   "low": 25,
+   "high": 25,
+   "unit": "min",
+   "evidence": "在搅拌至25分钟时，缓慢加入6份铝盐",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F070",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S3",
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 6,
+   "high": 6,
+   "unit": "份",
+   "evidence": "6份铝盐",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F071",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入铝盐后",
+   "low": 7.5,
+   "high": 7.5,
+   "unit": null,
+   "evidence": "6份铝盐，将pH值调节至7.5",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F072",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S4",
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 14,
+   "high": 14,
+   "unit": "份",
+   "evidence": "14份二氧化硅",
+   "where": {
+    "paragraph": "0030"
+   }
+  },
+  {
+   "id": "F073",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S4",
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.7,
+   "high": 0.7,
+   "unit": "份",
+   "evidence": "0.7份润滑剂",
+   "where": {
+    "paragraph": "0030"
+   }
+  },
+  {
+   "id": "F074",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S4",
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.8,
+   "high": 0.8,
+   "unit": "份",
+   "evidence": "0.8份消泡剂",
+   "where": {
+    "paragraph": "0030"
+   }
+  },
+  {
+   "id": "F075",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S4",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 35,
+   "high": 35,
+   "unit": "min",
+   "evidence": "搅拌35分钟",
+   "where": {
+    "paragraph": "0030"
+   }
+  },
+  {
+   "id": "F076",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S1",
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "份",
+   "evidence": "50份锐钛型二氧化钛",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F077",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S1",
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "份",
+   "evidence": "30份去离子水",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F078",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S1",
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 20,
+   "high": 20,
+   "unit": "份",
+   "evidence": "20份分散剂",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F079",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S1",
+   "name": "温度",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "℃",
+   "evidence": "温度设为50℃",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F080",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S1",
+   "name": "转速",
+   "qualifier": null,
+   "low": 150,
+   "high": 150,
+   "unit": "rpm",
+   "evidence": "转速设为150转/分钟",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F081",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S1",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "min",
+   "evidence": "搅拌时间为30分钟",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F082",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S2",
+   "name": "温度",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "℃",
+   "evidence": "温度控制在40℃",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F083",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 200,
+   "high": 200,
+   "unit": "rpm",
+   "evidence": "转速为200转/分钟",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F084",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S2",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": "min",
+   "evidence": "搅拌时间为8分钟",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F085",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S2",
+   "name": "静置时间",
+   "qualifier": null,
+   "low": 20,
+   "high": 20,
+   "unit": "min",
+   "evidence": "静置20分钟",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F086",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "℃",
+   "evidence": "升温至40℃",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F087",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "锆盐",
+   "low": 8,
+   "high": 8,
+   "unit": "min",
+   "evidence": "在搅拌8分钟时，缓慢加入7份锆盐",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F088",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S3",
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "7份锆盐",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F089",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入锆盐后",
+   "low": 7,
+   "high": 7,
+   "unit": null,
+   "evidence": "7份锆盐，将pH值调节至7",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F090",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "铝盐",
+   "low": 20,
+   "high": 20,
+   "unit": "min",
+   "evidence": "在搅拌至20分钟时，缓慢加入5份铝盐",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F091",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S3",
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "5份铝盐",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F092",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入铝盐后",
+   "low": 7,
+   "high": 7,
+   "unit": null,
+   "evidence": "5份铝盐，将pH值调节至7",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F093",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S4",
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 13,
+   "high": 13,
+   "unit": "份",
+   "evidence": "13份二氧化硅",
+   "where": {
+    "paragraph": "0035"
+   }
+  },
+  {
+   "id": "F094",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S4",
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.6,
+   "high": 0.6,
+   "unit": "份",
+   "evidence": "0.6份润滑剂",
+   "where": {
+    "paragraph": "0035"
+   }
+  },
+  {
+   "id": "F095",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S4",
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.7,
+   "high": 0.7,
+   "unit": "份",
+   "evidence": "0.7份消泡剂",
+   "where": {
+    "paragraph": "0035"
+   }
+  },
+  {
+   "id": "F096",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S4",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "min",
+   "evidence": "搅拌30分钟",
+   "where": {
+    "paragraph": "0035"
+   }
+  },
+  {
+   "id": "F097",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S1",
+   "name": "锐钛型二氧化钛",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "份",
+   "evidence": "60份锐钛型二氧化钛",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F098",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S1",
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "份",
+   "evidence": "50份去离子水",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F099",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S1",
+   "name": "分散剂",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "份",
+   "evidence": "30份分散剂",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F100",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S1",
+   "name": "温度",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "℃",
+   "evidence": "温度设为60℃",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F101",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S1",
+   "name": "转速",
+   "qualifier": null,
+   "low": 250,
+   "high": 250,
+   "unit": "rpm",
+   "evidence": "转速设为250转/分钟",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F102",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S1",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "min",
+   "evidence": "搅拌时间为40分钟",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F103",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S2",
+   "name": "温度",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "℃",
+   "evidence": "温度控制在50℃",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F104",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 250,
+   "high": 250,
+   "unit": "rpm",
+   "evidence": "转速为250转/分钟",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F105",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S2",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 10,
+   "high": 10,
+   "unit": "min",
+   "evidence": "搅拌时间为10分钟",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F106",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S2",
+   "name": "静置时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "min",
+   "evidence": "静置30分钟",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F107",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "℃",
+   "evidence": "升温至60℃",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F108",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "锆盐",
+   "low": 10,
+   "high": 10,
+   "unit": "min",
+   "evidence": "在搅拌10分钟时，缓慢加入9份锆盐",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F109",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S3",
+   "name": "锆盐",
+   "qualifier": null,
+   "low": 9,
+   "high": 9,
+   "unit": "份",
+   "evidence": "9份锆盐",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F110",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入锆盐后",
+   "low": 9,
+   "high": 9,
+   "unit": null,
+   "evidence": "9份锆盐，将pH值调节至9",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F111",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "加入时间",
+   "qualifier": "铝盐",
+   "low": 30,
+   "high": 30,
+   "unit": "min",
+   "evidence": "在搅拌至30分钟时，缓慢加入7份铝盐",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F112",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S3",
+   "name": "铝盐",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "7份铝盐",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F113",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": "加入铝盐后",
+   "low": 8,
+   "high": 8,
+   "unit": null,
+   "evidence": "7份铝盐，将pH值调节至8",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F114",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S4",
+   "name": "二氧化硅",
+   "qualifier": null,
+   "low": 15,
+   "high": 15,
+   "unit": "份",
+   "evidence": "15份二氧化硅",
+   "where": {
+    "paragraph": "0040"
+   }
+  },
+  {
+   "id": "F115",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S4",
+   "name": "润滑剂",
+   "qualifier": null,
+   "low": 0.8,
+   "high": 0.8,
+   "unit": "份",
+   "evidence": "0.8份润滑剂",
+   "where": {
+    "paragraph": "0040"
+   }
+  },
+  {
+   "id": "F116",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S4",
+   "name": "消泡剂",
+   "qualifier": null,
+   "low": 0.9,
+   "high": 0.9,
+   "unit": "份",
+   "evidence": "0.9份消泡剂",
+   "where": {
+    "paragraph": "0040"
+   }
+  },
+  {
+   "id": "F117",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S4",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "min",
+   "evidence": "搅拌40分钟",
+   "where": {
+    "paragraph": "0040"
+   }
+  },
+  {
+   "id": "F118",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "残渣含量",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例1 残渣含量（%） 8%",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   }
+  },
+  {
+   "id": "F119",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "过滤性能",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "过滤时间最短",
+   "requires_ocr": true,
+   "evidence": "实施例1 过滤性能 过滤时间最短",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   }
+  },
+  {
+   "id": "F120",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "残渣含量",
+   "qualifier": null,
+   "low": 15,
+   "high": 15,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例2 残渣含量（%） 15%",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   }
+  },
+  {
+   "id": "F121",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "过滤性能",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "过滤时间较长",
+   "requires_ocr": true,
+   "evidence": "实施例2 过滤性能 过滤时间较长",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   }
+  },
+  {
+   "id": "F122",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "残渣含量",
+   "qualifier": null,
+   "low": 23,
+   "high": 23,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例3 残渣含量（%） 23%",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   }
+  },
+  {
+   "id": "F123",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "过滤性能",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "过滤时间最长",
+   "requires_ocr": true,
+   "evidence": "实施例3 过滤性能 过滤时间最长",
+   "where": {
+    "figure": "图1",
+    "page": 7
+   }
+  }
+ ]
+}

@@ -1,0 +1,1338 @@
+{
+ "doc": "CN115403940A",
+ "title": "一种水分散性好的锦纶化纤用钛白粉及其制备方法",
+ "file": "一种水分散性好的锦纶化纤用钛白粉及其 制备方法.pdf",
+ "status": "draft",
+ "scope": {
+  "claims": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "paragraphs": [
+   "0026",
+   "0027",
+   "0028",
+   "0029",
+   "0031",
+   "0032",
+   "0033",
+   "0034",
+   "0036",
+   "0037",
+   "0038",
+   "0039"
+  ],
+  "figures": [
+   "图2"
+  ]
+ },
+ "excluded": [
+  {
+   "paragraphs": "[0007]-[0018]",
+   "reason": "发明内容：逐字复述权利要求1-8"
+  },
+  {
+   "paragraphs": "[0020]",
+   "reason": "有益效果：复述权利要求7的步骤"
+  },
+  {
+   "paragraphs": "[0042]-[0043]",
+   "reason": "对比实验：只描述检测方法和结论，没有配方或工艺数字；数据在图2"
+  }
+ ],
+ "notes": [
+  {
+   "type": "typo",
+   "where": {
+    "claim": 1
+   },
+   "text": "“pH调节剂2-5分”：单位“分”应为“份”（[0007]同样写作“分”）。"
+  },
+  {
+   "type": "missing_amount",
+   "where": {
+    "paragraph": "0037"
+   },
+   "text": "实施例三S2写“并加入有机硅进行混合”，没有用量；权利要求4（与实施例三其余用量一致）为7份。标准答案不补这一条。"
+  },
+  {
+   "type": "label_style",
+   "where": {
+    "paragraph": "0042"
+   },
+   "text": "实施例标题写作“实施例一/二/三”，对比实验[0042]写作“实施例1、实施例2、实施例3”，图2表头又写作“实施例一”。"
+  },
+  {
+   "type": "figure_only",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   },
+   "text": "检测结果只在图2（第7页图片）中，文字层没有；结果事实标 requires_ocr，证据是按图片手抄的“列 行 值”。"
+  },
+  {
+   "type": "reference_column",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   },
+   "text": "图2第4列“市场上钛白粉”是对照样品，不是本发明的实施例；以“市场上钛白粉”作为 subject。"
+  },
+  {
+   "type": "bound",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   },
+   "text": "水分散性是“>92”“<85”这样的单边界：只填 low 或 high，原样写进 text。"
+  }
+ ],
+ "facts": [
+  {
+   "id": "F001",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 60,
+   "high": 80,
+   "unit": "份",
+   "evidence": "锐钛型钛白粉粗料60-80份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F002",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 30,
+   "high": 50,
+   "unit": "份",
+   "evidence": "去离子水30-50份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F003",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 2,
+   "high": 5,
+   "unit": "份",
+   "evidence": "pH调节剂2-5分",
+   "where": {
+    "claim": 1
+   },
+   "issue": "原文单位写作“分”，按权利要求2-4及实施例应为“份”；按“份”标注"
+  },
+  {
+   "id": "F004",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 6,
+   "high": 8,
+   "unit": "份",
+   "evidence": "有机分散剂6-8份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F005",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 4,
+   "high": 6,
+   "unit": "份",
+   "evidence": "枸橼酸4-6份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F006",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "有机硅",
+   "qualifier": null,
+   "low": 3,
+   "high": 7,
+   "unit": "份",
+   "evidence": "有机硅3-7份",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F007",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "份",
+   "evidence": "锐钛型钛白粉粗料60份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F008",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "份",
+   "evidence": "去离子水30份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F009",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 2,
+   "high": 2,
+   "unit": "份",
+   "evidence": "pH调节剂2份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F010",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 6,
+   "high": 6,
+   "unit": "份",
+   "evidence": "有机分散剂6份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F011",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 4,
+   "high": 4,
+   "unit": "份",
+   "evidence": "枸橼酸4份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F012",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "有机硅",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": "份",
+   "evidence": "有机硅3份",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F013",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 70,
+   "high": 70,
+   "unit": "份",
+   "evidence": "锐钛型钛白粉粗料70份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F014",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "份",
+   "evidence": "去离子水40份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F015",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 4,
+   "high": 4,
+   "unit": "份",
+   "evidence": "pH调节剂4份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F016",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "有机分散剂7份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F017",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "枸橼酸5份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F018",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "有机硅",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "有机硅5份",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F019",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 80,
+   "high": 80,
+   "unit": "份",
+   "evidence": "锐钛型钛白粉粗料80份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F020",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "份",
+   "evidence": "去离子水50份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F021",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "pH调节剂5份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F022",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": "份",
+   "evidence": "有机分散剂8份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F023",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 6,
+   "high": 6,
+   "unit": "份",
+   "evidence": "枸橼酸6份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F024",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "有机硅",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "有机硅7份",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F025",
+   "kind": "option",
+   "subject": "claim:5",
+   "step": null,
+   "name": "pH调节剂",
+   "qualifier": null,
+   "options": [
+    "氢氧化钠水溶液",
+    "稀硫酸水溶液"
+   ],
+   "evidence": "所述pH调节剂为氢氧化钠水溶液或稀硫酸水溶液",
+   "where": {
+    "claim": 5
+   }
+  },
+  {
+   "id": "F026",
+   "kind": "option",
+   "subject": "claim:6",
+   "step": null,
+   "name": "有机分散剂",
+   "qualifier": null,
+   "options": [
+    "聚羧酸钠",
+    "聚丙烯酸钠",
+    "聚丙烯酰胺"
+   ],
+   "evidence": "所述有机分散剂为聚羧酸钠、聚丙烯酸钠或聚丙烯酰胺",
+   "where": {
+    "claim": 6
+   }
+  },
+  {
+   "id": "F027",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 800,
+   "high": 1000,
+   "unit": "rpm",
+   "evidence": "以800-1000r/min的转速",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F028",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S2",
+   "name": "反应时间",
+   "qualifier": null,
+   "low": 3,
+   "high": 5,
+   "unit": "h",
+   "evidence": "反应时间为3-5h",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F029",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 50,
+   "high": 70,
+   "unit": "℃",
+   "evidence": "升温至50-70℃",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F030",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S3",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 50,
+   "unit": "min",
+   "evidence": "搅拌时间为30-50min",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F031",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": null,
+   "low": 8,
+   "high": 10,
+   "unit": null,
+   "evidence": "pH值为8-10",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F032",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S3",
+   "name": "熟化时间",
+   "qualifier": null,
+   "low": 0.5,
+   "high": 2,
+   "unit": "h",
+   "evidence": "熟化0.5-2小时",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F033",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S2",
+   "name": "料浆浓度",
+   "qualifier": null,
+   "low": 600,
+   "high": 800,
+   "unit": "g/L",
+   "evidence": "料浆浓度为600-800g/L",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F034",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S1",
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "份",
+   "evidence": "60份锐钛型钛白粉粗料",
+   "where": {
+    "paragraph": "0026"
+   }
+  },
+  {
+   "id": "F035",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S2",
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "份",
+   "evidence": "30份去离子水",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F036",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S2",
+   "name": "有机硅",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": "份",
+   "evidence": "3份有机硅",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F037",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 800,
+   "high": 800,
+   "unit": "rpm",
+   "evidence": "以800r/min的转速",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F038",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S2",
+   "name": "反应时间",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": "h",
+   "evidence": "反应时间为3h",
+   "where": {
+    "paragraph": "0027"
+   }
+  },
+  {
+   "id": "F039",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "℃",
+   "evidence": "升温至50℃",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F040",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S3",
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 4,
+   "high": 4,
+   "unit": "份",
+   "evidence": "4份枸橼酸",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F041",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "min",
+   "evidence": "搅拌时间为30min",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F042",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S3",
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 2,
+   "high": 2,
+   "unit": "份",
+   "evidence": "2份pH调节剂",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F043",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": null,
+   "evidence": "pH值为8",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F044",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S3",
+   "name": "熟化时间",
+   "qualifier": null,
+   "low": 0.5,
+   "high": 0.5,
+   "unit": "h",
+   "evidence": "熟化0.5小时",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F045",
+   "kind": "component",
+   "subject": "E1",
+   "step": "S4",
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 6,
+   "high": 6,
+   "unit": "份",
+   "evidence": "6份有机分散剂",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F046",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S1",
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 70,
+   "high": 70,
+   "unit": "份",
+   "evidence": "70份锐钛型钛白粉粗料",
+   "where": {
+    "paragraph": "0031"
+   }
+  },
+  {
+   "id": "F047",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S2",
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "份",
+   "evidence": "40份去离子水",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F048",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S2",
+   "name": "有机硅",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "5份有机硅",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F049",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 900,
+   "high": 900,
+   "unit": "rpm",
+   "evidence": "以900r/min的转速",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F050",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S2",
+   "name": "反应时间",
+   "qualifier": null,
+   "low": 4,
+   "high": 4,
+   "unit": "h",
+   "evidence": "反应时间为4h",
+   "where": {
+    "paragraph": "0032"
+   }
+  },
+  {
+   "id": "F051",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 60,
+   "high": 60,
+   "unit": "℃",
+   "evidence": "升温至60℃",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F052",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S3",
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "5份枸橼酸",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F053",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 40,
+   "high": 40,
+   "unit": "min",
+   "evidence": "搅拌时间为40min",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F054",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S3",
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 4,
+   "high": 4,
+   "unit": "份",
+   "evidence": "4份pH调节剂",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F055",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": null,
+   "low": 9,
+   "high": 9,
+   "unit": null,
+   "evidence": "pH值为9",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F056",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S3",
+   "name": "熟化时间",
+   "qualifier": null,
+   "low": 1,
+   "high": 1,
+   "unit": "h",
+   "evidence": "熟化1小时",
+   "where": {
+    "paragraph": "0033"
+   }
+  },
+  {
+   "id": "F057",
+   "kind": "component",
+   "subject": "E2",
+   "step": "S4",
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 7,
+   "high": 7,
+   "unit": "份",
+   "evidence": "7份有机分散剂",
+   "where": {
+    "paragraph": "0034"
+   }
+  },
+  {
+   "id": "F058",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S1",
+   "name": "锐钛型钛白粉粗料",
+   "qualifier": null,
+   "low": 80,
+   "high": 80,
+   "unit": "份",
+   "evidence": "80份锐钛型钛白粉粗料",
+   "where": {
+    "paragraph": "0036"
+   }
+  },
+  {
+   "id": "F059",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S2",
+   "name": "去离子水",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "份",
+   "evidence": "50份去离子水",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F060",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S2",
+   "name": "转速",
+   "qualifier": null,
+   "low": 1000,
+   "high": 1000,
+   "unit": "rpm",
+   "evidence": "以1000r/min的转速",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F061",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S2",
+   "name": "反应时间",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "h",
+   "evidence": "反应时间为5h",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F062",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "温度",
+   "qualifier": null,
+   "low": 70,
+   "high": 70,
+   "unit": "℃",
+   "evidence": "升温至70℃",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F063",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S3",
+   "name": "枸橼酸",
+   "qualifier": null,
+   "low": 6,
+   "high": 6,
+   "unit": "份",
+   "evidence": "6份枸橼酸",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F064",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "min",
+   "evidence": "搅拌时间为50min",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F065",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S3",
+   "name": "pH调节剂",
+   "qualifier": null,
+   "low": 5,
+   "high": 5,
+   "unit": "份",
+   "evidence": "5份pH调节剂",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F066",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "pH",
+   "qualifier": null,
+   "low": 10,
+   "high": 10,
+   "unit": null,
+   "evidence": "pH值为10",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F067",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S3",
+   "name": "熟化时间",
+   "qualifier": null,
+   "low": 2,
+   "high": 2,
+   "unit": "h",
+   "evidence": "熟化2小时",
+   "where": {
+    "paragraph": "0038"
+   }
+  },
+  {
+   "id": "F068",
+   "kind": "component",
+   "subject": "E3",
+   "step": "S4",
+   "name": "有机分散剂",
+   "qualifier": null,
+   "low": 8,
+   "high": 8,
+   "unit": "份",
+   "evidence": "8份有机分散剂",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F069",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "水分散性",
+   "qualifier": null,
+   "low": 92,
+   "high": null,
+   "unit": "%",
+   "text": ">92",
+   "requires_ocr": true,
+   "evidence": "实施例一 水分散性(%) >92",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F070",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "耐候性",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "较好",
+   "requires_ocr": true,
+   "evidence": "实施例一 耐候性 较好",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F071",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "是否出现团聚",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "未团聚",
+   "requires_ocr": true,
+   "evidence": "实施例一 是否出现团聚 未团聚",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F072",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "水分散性",
+   "qualifier": null,
+   "low": 98,
+   "high": null,
+   "unit": "%",
+   "text": ">98",
+   "requires_ocr": true,
+   "evidence": "实施例二 水分散性(%) >98",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F073",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "耐候性",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "优越",
+   "requires_ocr": true,
+   "evidence": "实施例二 耐候性 优越",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F074",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "是否出现团聚",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "未团聚",
+   "requires_ocr": true,
+   "evidence": "实施例二 是否出现团聚 未团聚",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F075",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "水分散性",
+   "qualifier": null,
+   "low": 95,
+   "high": null,
+   "unit": "%",
+   "text": ">95",
+   "requires_ocr": true,
+   "evidence": "实施例三 水分散性(%) >95",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F076",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "耐候性",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "较好",
+   "requires_ocr": true,
+   "evidence": "实施例三 耐候性 较好",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F077",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "是否出现团聚",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "未团聚",
+   "requires_ocr": true,
+   "evidence": "实施例三 是否出现团聚 未团聚",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F078",
+   "kind": "result",
+   "subject": "市场上钛白粉",
+   "step": null,
+   "name": "水分散性",
+   "qualifier": null,
+   "low": null,
+   "high": 85,
+   "unit": "%",
+   "text": "<85",
+   "requires_ocr": true,
+   "evidence": "市场上钛白粉 水分散性(%) <85",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F079",
+   "kind": "result",
+   "subject": "市场上钛白粉",
+   "step": null,
+   "name": "耐候性",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "一般",
+   "requires_ocr": true,
+   "evidence": "市场上钛白粉 耐候性 一般",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  },
+  {
+   "id": "F080",
+   "kind": "result",
+   "subject": "市场上钛白粉",
+   "step": null,
+   "name": "是否出现团聚",
+   "qualifier": null,
+   "low": null,
+   "high": null,
+   "unit": null,
+   "text": "明显团聚",
+   "requires_ocr": true,
+   "evidence": "市场上钛白粉 是否出现团聚 明显团聚",
+   "where": {
+    "figure": "图2",
+    "page": 7
+   }
+  }
+ ]
+}

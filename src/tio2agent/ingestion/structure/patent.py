@@ -1,18 +1,21 @@
-"""Structurer for Chinese patent publications (CNIPA 发明/实用新型).
+"""Structurer for Chinese patent publications (CNIPA; the samples are all 发明专利).
 
     page 1        扉页          -> Bibliographic           (patent_front.py)
     权利要求书     claims        -> Claim[]                 (patent_claims.py)
     说明书         description   -> Section[] / Paragraph[] (this module)
-                                   Embodiment[] from 实施例N / 对比例 headings
+                                   Embodiment[] from 实施例N / 对比案例 headings
 
 Embodiments run from their heading to the next heading, a boilerplate paragraph,
 or (for examples) a paragraph that discusses several examples at once ("上表为对
-实施例1-实施例3…"), which belongs to the test section, not to the last example.
-Headings and step markers come in several styles across patents:
+实施例1 -实施例3…"), which belongs to the test section, not to the last example.
 
-    实施例1 / 实施例 2： / 实施例一 / 具体实施例3      -> E1, E2, E1, E3
-    对比例1 / 对比案例 / 对比实验 / 对比试验          -> C1, …
-    S1、 / 步骤1： / 步骤一、 / 第一步，              -> step "S1"
+Every format rule below was seen in one of the sample patents in data/samples and
+names its source; a new style is added together with the document that uses it:
+
+    CN116694108A  CN115466527A  CN115403940A  CN114573021A
+    实施例1        实施例1        实施例一       实施例1：        -> E1
+    对比案例       对比案例       对比实验       —                -> C1
+    S1、           S1、           S1、           步骤1：          -> step "S1"
     OCR tables                   -> TableRef[], attached to the empty paragraph
                                    that holds the image (e.g. [0043])
 
@@ -60,36 +63,30 @@ SECTION_HEADINGS: dict[str, SectionKind] = {
     "技术领域": SectionKind.TECHNICAL_FIELD,
     "背景技术": SectionKind.BACKGROUND,
     "发明内容": SectionKind.SUMMARY,
-    "实用新型内容": SectionKind.SUMMARY,
     "附图说明": SectionKind.DRAWINGS,
     "具体实施方式": SectionKind.DETAILED_DESCRIPTION,
 }
 
-# "(一)解决的技术问题", "（三）有益效果"
-_SUBHEADING = re.compile(r"^[(（]([一二三四五六七八九十]+)[)）]\s*(.{1,20})$")
-# "实施例1", "实施例 2：", "实施例一", "具体实施例3", "对比例1", "对比案例", "对比实验";
-# not "实施例1中…" (a reference inside a sentence)
-_EMBODIMENT = re.compile(
-    rf"^(?:具体)?(实施例|对比实施例|对比例|对比案例|对比实验|对比试验|比较例)"
-    rf"\s*(\d+|[{CN_DIGITS}]+)?\s*(?:$|[:：、.．]\s*(.*)$)"
-)
-# A paragraph about several examples at once: "实施例1-实施例3", "实施例1、实施例2和实施例3",
-# "实施例1至3", "各实施例".
-_SEVERAL_EXAMPLES = re.compile(r"实施例\s*\d+\s*(?:[-~～至到、和与及,，]\s*(?:实施例)?\s*\d+)+|各实施例")
+# "(一)解决的技术问题" … "(三)有益效果": CN116694108A, CN115466527A, CN115403940A [0004]-[0019]
+_SUBHEADING = re.compile(r"^\(([一二三四五六七八九十]+)\)\s*(.{1,20})$")
+# Whole-paragraph headings, not "实施例1中…" (a reference inside a sentence):
+#   实施例1   CN116694108A [0025], CN115466527A [0026]
+#   实施例一  CN115403940A [0025]   (Chinese numerals: any number, same style)
+#   实施例1： CN114573021A [0022]
+#   对比案例  CN116694108A [0040], CN115466527A [0041]
+#   对比实验  CN115403940A [0041]
+_EMBODIMENT = re.compile(rf"^(实施例|对比案例|对比实验)(\d+|[{CN_DIGITS}]+)?(?:$|：(.*)$)")
+# A paragraph about several examples at once: "上表为对本发明实施例1 -实施例3制备得到的
+# 钛白粉进行检测…" (CN114573021A [0048]).
+_SEVERAL_EXAMPLES = re.compile(r"实施例\d+\s*-\s*实施例\d+")
 _BOILERPLATE = (
-    "下面将结合本发明实施例",
-    "下面将结合本实用新型实施例",
-    "下面将对本发明实施例",
-    "需要说明的是",
-    "尽管已经示出和描述",
-    "以上所述",
-    "以上实施例仅用以",
-    "以上显示和描述了本发明",
-    "最后应说明的是",
-    "对于本领域技术人员而言，显然本发明不限于",
-    "在本发明的描述中，需要理解的是",
-    "同时本说明书中未作详细描述的内容",
-    "本说明书中未作详细描述的内容",
+    "下面将结合本发明实施例",            # CN116694108A [0023], CN115466527A [0024], CN115403940A [0023]
+    "下面将对本发明实施例",              # CN114573021A [0019]
+    "在本发明的描述中，需要理解的是",    # CN114573021A [0020]
+    "同时本说明书中未作详细描述的内容",  # CN115403940A [0040]
+    "需要说明的是",                      # CN116694108A, CN115466527A, CN115403940A [0044]
+    "以上显示和描述了本发明",            # CN114573021A [0049]
+    "尽管已经示出和描述",                # all four samples, last paragraph
 )
 
 
@@ -267,7 +264,9 @@ def _group_embodiments(paragraphs: list[Paragraph]) -> list[Embodiment]:
             and _SEVERAL_EXAMPLES.search(p.text)
         ):
             # Test results for all examples: the example ended before this paragraph,
-            # and so did an image placeholder right before it (the results table).
+            # and so did an image placeholder right before it (the results table,
+            # CN114573021A [0047]). Comparatives are exempt: they routinely discuss all
+            # examples ("由实施例1、实施例2、实施例3分别制作", CN115403940A [0042]).
             while current.paragraph_ids and not _by_id(paragraphs, current.paragraph_ids[-1]).text:
                 _by_id(paragraphs, current.paragraph_ids.pop()).embodiment = None
             current = None

@@ -1,0 +1,1048 @@
+{
+ "doc": "CN114573021A",
+ "title": "一种高纯度混晶型钛白粉及其生产方法",
+ "file": "一种高纯度混晶型钛白粉及其生产方法.pdf",
+ "status": "draft",
+ "scope": {
+  "claims": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "paragraphs": [
+   "0023",
+   "0024",
+   "0025",
+   "0026",
+   "0027",
+   "0028",
+   "0029",
+   "0031",
+   "0032",
+   "0033",
+   "0034",
+   "0035",
+   "0036",
+   "0037",
+   "0039",
+   "0040",
+   "0041",
+   "0042",
+   "0043",
+   "0044",
+   "0045"
+  ],
+  "figures": [
+   "[0047]表"
+  ]
+ },
+ "excluded": [
+  {
+   "paragraphs": "[0004]-[0016]",
+   "reason": "发明内容：逐字复述权利要求1-8"
+  },
+  {
+   "paragraphs": "[0046]",
+   "reason": "逐字复述权利要求6；位于实施例3末尾，但没有“实施例3中”之类的限定，按复述处理（待确认）"
+  },
+  {
+   "paragraphs": "[0048]",
+   "reason": "对检测表的文字总结，没有数字"
+  }
+ ],
+ "notes": [
+  {
+   "type": "naming",
+   "where": {
+    "claim": 1
+   },
+   "text": "权利要求1写“磷酸含量”，权利要求2-4和实施例1-3写“含磷量”。两者是否同一指标需要确认；目前按原文各自标注。"
+  },
+  {
+   "type": "inconsistent",
+   "where": {
+    "claim": 1
+   },
+   "text": "“重量百分比原料组成”中二氧化钛95-97％与金红石型30-70％、锐钛型20-65％、三价铝1-3％之和超过100％，原文如此，不作修正。"
+  },
+  {
+   "type": "basis",
+   "where": {
+    "claim": 1
+   },
+   "text": "含磷量（磷酸含量）的基准是“钛白粉总重量”，其余四项是“重量百分比原料组成”；单位都标为 %。"
+  },
+  {
+   "type": "no_step",
+   "where": {
+    "paragraph": "0023"
+   },
+   "text": "实施例的组成写在步骤之前（[0023]/[0031]/[0039]），step 为 null。"
+  },
+  {
+   "type": "unlabeled_step_params",
+   "where": {
+    "paragraph": "0026"
+   },
+   "text": "实施例的步骤2没有给出酸解的时间参数（只有权利要求6/[0046]给出），所以实施例下没有搅拌时间/反应时间/空压时间。"
+  },
+  {
+   "type": "naming",
+   "where": {
+    "claim": 6
+   },
+   "text": "权利要求6的三个时间命名为：搅拌时间（钛铁矿与硫酸搅拌30min）、反应时间（引发主反应1h）、空压时间（继续空压10-15min）；第一次“先进行空压”没有时间。"
+  },
+  {
+   "type": "qualifier",
+   "where": {
+    "paragraph": "0028"
+   },
+   "text": "实施例的pH写在“漂白完后的偏钛酸进行漂洗，偏钛酸的pH值为2”，权利要求8写“经过漂白后的偏钛酸的pH值为2-3”；每个步骤只有一个pH，所以不加限定。"
+  },
+  {
+   "type": "label_style",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   },
+   "text": "实施例标题写作“实施例1：”，检测表表头写作“实施例一”。"
+  },
+  {
+   "type": "figure_only",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   },
+   "text": "检测结果只在[0047]的表格图片中（第6页）；结果事实标 requires_ocr。表中“PH值”统一记为 pH。"
+  }
+ ],
+ "facts": [
+  {
+   "id": "F001",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 95,
+   "high": 97,
+   "unit": "%",
+   "evidence": "二氧化钛95-97％",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F002",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 30,
+   "high": 70,
+   "unit": "%",
+   "evidence": "金红石型钛白粉30-70％",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F003",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 20,
+   "high": 65,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉20-65％",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F004",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 1,
+   "high": 3,
+   "unit": "%",
+   "evidence": "三价铝1-3％",
+   "where": {
+    "claim": 1
+   }
+  },
+  {
+   "id": "F005",
+   "kind": "component",
+   "subject": "claim:1",
+   "step": null,
+   "name": "磷酸含量",
+   "qualifier": null,
+   "low": 0.01,
+   "high": 0.05,
+   "unit": "%",
+   "evidence": "磷酸含量为钛白粉总重量的0.01-0.05％",
+   "where": {
+    "claim": 1
+   },
+   "issue": "权利要求1写“磷酸含量”，权利要求2-4和实施例写“含磷量”；按原文标注，统一名称待确认"
+  },
+  {
+   "id": "F006",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 95,
+   "high": 95,
+   "unit": "%",
+   "evidence": "二氧化钛95％",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F007",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "%",
+   "evidence": "金红石型钛白粉30％",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F008",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 20,
+   "high": 20,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉20％",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F009",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 1,
+   "high": 1,
+   "unit": "%",
+   "evidence": "三价铝1％",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F010",
+   "kind": "component",
+   "subject": "claim:2",
+   "step": null,
+   "name": "含磷量",
+   "qualifier": null,
+   "low": 0.02,
+   "high": 0.02,
+   "unit": "%",
+   "evidence": "含磷量为钛白粉总重量的0.02％",
+   "where": {
+    "claim": 2
+   }
+  },
+  {
+   "id": "F011",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 96,
+   "high": 96,
+   "unit": "%",
+   "evidence": "二氧化钛96％",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F012",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "%",
+   "evidence": "金红石型钛白粉50％",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F013",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 45,
+   "high": 45,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉45％",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F014",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 2,
+   "high": 2,
+   "unit": "%",
+   "evidence": "三价铝2％",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F015",
+   "kind": "component",
+   "subject": "claim:3",
+   "step": null,
+   "name": "含磷量",
+   "qualifier": null,
+   "low": 0.03,
+   "high": 0.03,
+   "unit": "%",
+   "evidence": "含磷量为钛白粉总重量的0.03％",
+   "where": {
+    "claim": 3
+   }
+  },
+  {
+   "id": "F016",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 97,
+   "high": 97,
+   "unit": "%",
+   "evidence": "二氧化钛97％",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F017",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 70,
+   "high": 70,
+   "unit": "%",
+   "evidence": "金红石型钛白粉70％",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F018",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 65,
+   "high": 65,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉65％",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F019",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": "%",
+   "evidence": "三价铝3％",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F020",
+   "kind": "component",
+   "subject": "claim:4",
+   "step": null,
+   "name": "含磷量",
+   "qualifier": null,
+   "low": 0.05,
+   "high": 0.05,
+   "unit": "%",
+   "evidence": "含磷量为钛白粉总重量的0.05％",
+   "where": {
+    "claim": 4
+   }
+  },
+  {
+   "id": "F021",
+   "kind": "parameter",
+   "subject": "claim:6",
+   "step": "S2",
+   "name": "搅拌时间",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "min",
+   "evidence": "钛铁矿与硫酸搅拌30min",
+   "where": {
+    "claim": 6
+   }
+  },
+  {
+   "id": "F022",
+   "kind": "parameter",
+   "subject": "claim:6",
+   "step": "S2",
+   "name": "反应时间",
+   "qualifier": null,
+   "low": 1,
+   "high": 1,
+   "unit": "h",
+   "evidence": "加入蒸汽引发主反应1h",
+   "where": {
+    "claim": 6
+   }
+  },
+  {
+   "id": "F023",
+   "kind": "parameter",
+   "subject": "claim:6",
+   "step": "S2",
+   "name": "空压时间",
+   "qualifier": null,
+   "low": 10,
+   "high": 15,
+   "unit": "min",
+   "evidence": "继续空压10-15min",
+   "where": {
+    "claim": 6
+   }
+  },
+  {
+   "id": "F024",
+   "kind": "parameter",
+   "subject": "claim:7",
+   "step": "S5",
+   "name": "煅烧温度",
+   "qualifier": null,
+   "low": 900,
+   "high": 1250,
+   "unit": "℃",
+   "evidence": "在900-1250℃下煅烧",
+   "where": {
+    "claim": 7
+   }
+  },
+  {
+   "id": "F025",
+   "kind": "parameter",
+   "subject": "claim:8",
+   "step": "S4",
+   "name": "pH",
+   "qualifier": null,
+   "low": 2,
+   "high": 3,
+   "unit": null,
+   "evidence": "偏钛酸的pH值为2-3",
+   "where": {
+    "claim": 8
+   }
+  },
+  {
+   "id": "F026",
+   "kind": "component",
+   "subject": "E1",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 95,
+   "high": 95,
+   "unit": "%",
+   "evidence": "二氧化钛95％",
+   "where": {
+    "paragraph": "0023"
+   }
+  },
+  {
+   "id": "F027",
+   "kind": "component",
+   "subject": "E1",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 30,
+   "high": 30,
+   "unit": "%",
+   "evidence": "金红石型钛白粉30％",
+   "where": {
+    "paragraph": "0023"
+   }
+  },
+  {
+   "id": "F028",
+   "kind": "component",
+   "subject": "E1",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 20,
+   "high": 20,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉20％",
+   "where": {
+    "paragraph": "0023"
+   }
+  },
+  {
+   "id": "F029",
+   "kind": "component",
+   "subject": "E1",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 1,
+   "high": 1,
+   "unit": "%",
+   "evidence": "三价铝1％",
+   "where": {
+    "paragraph": "0023"
+   }
+  },
+  {
+   "id": "F030",
+   "kind": "component",
+   "subject": "E1",
+   "step": null,
+   "name": "含磷量",
+   "qualifier": null,
+   "low": 0.02,
+   "high": 0.02,
+   "unit": "%",
+   "evidence": "含磷量为钛白粉总重量的0.02％",
+   "where": {
+    "paragraph": "0023"
+   }
+  },
+  {
+   "id": "F031",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S4",
+   "name": "pH",
+   "qualifier": null,
+   "low": 2,
+   "high": 2,
+   "unit": null,
+   "evidence": "偏钛酸的pH值为2",
+   "where": {
+    "paragraph": "0028"
+   }
+  },
+  {
+   "id": "F032",
+   "kind": "parameter",
+   "subject": "E1",
+   "step": "S5",
+   "name": "煅烧温度",
+   "qualifier": null,
+   "low": 1000,
+   "high": 1000,
+   "unit": "℃",
+   "evidence": "在1000℃下开始煅烧",
+   "where": {
+    "paragraph": "0029"
+   }
+  },
+  {
+   "id": "F033",
+   "kind": "component",
+   "subject": "E2",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 96,
+   "high": 96,
+   "unit": "%",
+   "evidence": "二氧化钛96％",
+   "where": {
+    "paragraph": "0031"
+   }
+  },
+  {
+   "id": "F034",
+   "kind": "component",
+   "subject": "E2",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 50,
+   "high": 50,
+   "unit": "%",
+   "evidence": "金红石型钛白粉50％",
+   "where": {
+    "paragraph": "0031"
+   }
+  },
+  {
+   "id": "F035",
+   "kind": "component",
+   "subject": "E2",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 45,
+   "high": 45,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉45％",
+   "where": {
+    "paragraph": "0031"
+   }
+  },
+  {
+   "id": "F036",
+   "kind": "component",
+   "subject": "E2",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 2,
+   "high": 2,
+   "unit": "%",
+   "evidence": "三价铝2％",
+   "where": {
+    "paragraph": "0031"
+   }
+  },
+  {
+   "id": "F037",
+   "kind": "component",
+   "subject": "E2",
+   "step": null,
+   "name": "含磷量",
+   "qualifier": null,
+   "low": 0.03,
+   "high": 0.03,
+   "unit": "%",
+   "evidence": "含磷量为钛白粉总重量的0.03％",
+   "where": {
+    "paragraph": "0031"
+   }
+  },
+  {
+   "id": "F038",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S4",
+   "name": "pH",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": null,
+   "evidence": "偏钛酸的pH值为3",
+   "where": {
+    "paragraph": "0036"
+   }
+  },
+  {
+   "id": "F039",
+   "kind": "parameter",
+   "subject": "E2",
+   "step": "S5",
+   "name": "煅烧温度",
+   "qualifier": null,
+   "low": 1150,
+   "high": 1150,
+   "unit": "℃",
+   "evidence": "在1150℃下开始煅烧",
+   "where": {
+    "paragraph": "0037"
+   }
+  },
+  {
+   "id": "F040",
+   "kind": "component",
+   "subject": "E3",
+   "step": null,
+   "name": "二氧化钛",
+   "qualifier": null,
+   "low": 97,
+   "high": 97,
+   "unit": "%",
+   "evidence": "二氧化钛97％",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F041",
+   "kind": "component",
+   "subject": "E3",
+   "step": null,
+   "name": "金红石型钛白粉",
+   "qualifier": null,
+   "low": 70,
+   "high": 70,
+   "unit": "%",
+   "evidence": "金红石型钛白粉70％",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F042",
+   "kind": "component",
+   "subject": "E3",
+   "step": null,
+   "name": "锐钛型钛白粉",
+   "qualifier": null,
+   "low": 65,
+   "high": 65,
+   "unit": "%",
+   "evidence": "锐钛型钛白粉65％",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F043",
+   "kind": "component",
+   "subject": "E3",
+   "step": null,
+   "name": "三价铝",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": "%",
+   "evidence": "三价铝3％",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F044",
+   "kind": "component",
+   "subject": "E3",
+   "step": null,
+   "name": "含磷量",
+   "qualifier": null,
+   "low": 0.05,
+   "high": 0.05,
+   "unit": "%",
+   "evidence": "含磷量为钛白粉总重量的0.05％",
+   "where": {
+    "paragraph": "0039"
+   }
+  },
+  {
+   "id": "F045",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S4",
+   "name": "pH",
+   "qualifier": null,
+   "low": 3,
+   "high": 3,
+   "unit": null,
+   "evidence": "偏钛酸的pH值为3",
+   "where": {
+    "paragraph": "0044"
+   }
+  },
+  {
+   "id": "F046",
+   "kind": "parameter",
+   "subject": "E3",
+   "step": "S5",
+   "name": "煅烧温度",
+   "qualifier": null,
+   "low": 1250,
+   "high": 1250,
+   "unit": "℃",
+   "evidence": "在1250℃下开始煅烧",
+   "where": {
+    "paragraph": "0045"
+   }
+  },
+  {
+   "id": "F047",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "白度",
+   "qualifier": null,
+   "low": 99.6,
+   "high": 99.6,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例一 白度 99.6%",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F048",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "二氧化钛含量",
+   "qualifier": null,
+   "low": 95.5,
+   "high": 95.5,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例一 二氧化钛含量（m/m） 95.50%",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F049",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "pH",
+   "qualifier": null,
+   "low": 6.5,
+   "high": 6.5,
+   "unit": null,
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例一 PH值 6.5",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F050",
+   "kind": "result",
+   "subject": "E1",
+   "step": null,
+   "name": "平均粒径",
+   "qualifier": null,
+   "low": 0.21,
+   "high": 0.21,
+   "unit": "μm",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例一 平均粒径/μm 0.21",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F051",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "白度",
+   "qualifier": null,
+   "low": 99.4,
+   "high": 99.4,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例二 白度 99.4%",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F052",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "二氧化钛含量",
+   "qualifier": null,
+   "low": 95.7,
+   "high": 95.7,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例二 二氧化钛含量（m/m） 95.70%",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F053",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "pH",
+   "qualifier": null,
+   "low": 6.6,
+   "high": 6.6,
+   "unit": null,
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例二 PH值 6.6",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F054",
+   "kind": "result",
+   "subject": "E2",
+   "step": null,
+   "name": "平均粒径",
+   "qualifier": null,
+   "low": 0.23,
+   "high": 0.23,
+   "unit": "μm",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例二 平均粒径/μm 0.23",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F055",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "白度",
+   "qualifier": null,
+   "low": 99.5,
+   "high": 99.5,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例三 白度 99.5%",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F056",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "二氧化钛含量",
+   "qualifier": null,
+   "low": 95.6,
+   "high": 95.6,
+   "unit": "%",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例三 二氧化钛含量（m/m） 95.60%",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F057",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "pH",
+   "qualifier": null,
+   "low": 6.5,
+   "high": 6.5,
+   "unit": null,
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例三 PH值 6.5",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  },
+  {
+   "id": "F058",
+   "kind": "result",
+   "subject": "E3",
+   "step": null,
+   "name": "平均粒径",
+   "qualifier": null,
+   "low": 0.21,
+   "high": 0.21,
+   "unit": "μm",
+   "text": null,
+   "requires_ocr": true,
+   "evidence": "实施例三 平均粒径/μm 0.21",
+   "where": {
+    "figure": "[0047]表",
+    "paragraph": "0047",
+    "page": 6
+   }
+  }
+ ]
+}
