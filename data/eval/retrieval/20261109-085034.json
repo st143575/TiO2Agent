@@ -1,0 +1,360 @@
+{
+  "dataset": "evals/datasets/retrieval_gold.jsonl",
+  "k": 10,
+  "questions": 24,
+  "modes": {
+    "bm25": {
+      "metrics": {
+        "hit@1": 0.875,
+        "hit@3": 0.958,
+        "hit@5": 0.958,
+        "mrr@10": 0.917,
+        "mode_used": [
+          "bm25"
+        ]
+      },
+      "by_type": {
+        "background": {
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "mode_used": [
+            "bm25"
+          ],
+          "n": 4
+        },
+        "bibliographic": {
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "mode_used": [
+            "bm25"
+          ],
+          "n": 4
+        },
+        "comparison": {
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "mode_used": [
+            "bm25"
+          ],
+          "n": 3
+        },
+        "embodiment": {
+          "hit@1": 0.667,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 0.833,
+          "mode_used": [
+            "bm25"
+          ],
+          "n": 3
+        },
+        "fact": {
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "mrr@10": 1.0,
+          "mode_used": [
+            "bm25"
+          ],
+          "n": 8
+        },
+        "paraphrase": {
+          "hit@1": 0.0,
+          "hit@3": 0.5,
+          "hit@5": 0.5,
+          "mrr@10": 0.25,
+          "mode_used": [
+            "bm25"
+          ],
+          "n": 2
+        }
+      },
+      "rows": [
+        {
+          "id": "q01",
+          "type": "bibliographic",
+          "question": "这件专利的申请人是哪家公司？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "扉页著录项"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q02",
+          "type": "bibliographic",
+          "question": "发明人有哪些？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "扉页著录项"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q03",
+          "type": "bibliographic",
+          "question": "专利的申请号和申请日是什么？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "扉页著录项"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q04",
+          "type": "bibliographic",
+          "question": "专利的IPC分类号是什么？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "扉页著录项"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q05",
+          "type": "fact",
+          "question": "高耐候钛白粉的原料配比范围是多少？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0007]-[0013]",
+            "摘要",
+            "说明书[0020]-[0022]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q06",
+          "type": "embodiment",
+          "question": "实施例1中二氧化钛用了多少份？",
+          "first_relevant_rank": 2,
+          "top3": [
+            "说明书[0041]-[0043]",
+            "说明书[0026]-[0029]",
+            "说明书[0024]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q07",
+          "type": "embodiment",
+          "question": "实施例2的反应釜温度和转速是多少？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0031]-[0034]",
+            "说明书[0026]-[0029]",
+            "说明书[0036]-[0039]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q08",
+          "type": "embodiment",
+          "question": "实施例3加入了多少份包膜剂？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0036]-[0039]",
+            "说明书[0041]-[0043]",
+            "说明书[0026]-[0029]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q09",
+          "type": "fact",
+          "question": "包膜剂可以选择哪些物质？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "摘要",
+            "说明书[0007]-[0013]",
+            "说明书[0020]-[0022]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q10",
+          "type": "fact",
+          "question": "消泡剂用的是什么？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0007]-[0013]",
+            "摘要",
+            "说明书[0026]-[0029]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q11",
+          "type": "fact",
+          "question": "抗氧化剂有哪些选择？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0007]-[0013]",
+            "摘要",
+            "说明书[0020]-[0022]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q12",
+          "type": "fact",
+          "question": "高耐候钛白粉的制备方法包括哪些步骤？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0014]-[0018]",
+            "说明书[0041]-[0043]",
+            "说明书[0007]-[0013]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q13",
+          "type": "fact",
+          "question": "砂磨机研磨多长时间？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0026]-[0029]",
+            "说明书[0031]-[0034]",
+            "说明书[0036]-[0039]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q14",
+          "type": "fact",
+          "question": "加入锆盐后pH值调节到多少？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0014]-[0018]",
+            "说明书[0026]-[0029]",
+            "说明书[0031]-[0034]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q15",
+          "type": "fact",
+          "question": "过滤后的滤饼用什么洗涤？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0026]-[0029]",
+            "说明书[0031]-[0034]",
+            "说明书[0036]-[0039]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q16",
+          "type": "comparison",
+          "question": "哪个实施例制备的钛白粉耐候性最好？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0041]-[0043]",
+            "说明书[0026]-[0029]",
+            "说明书[0031]-[0034]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q17",
+          "type": "comparison",
+          "question": "老化试验后的色差值是多少？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0041]-[0043]",
+            "说明书[0026]-[0029]",
+            "说明书[0031]-[0034]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q18",
+          "type": "comparison",
+          "question": "对比测试是怎么安排工作人员的？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0041]-[0043]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q19",
+          "type": "background",
+          "question": "现有技术的包膜处理存在什么问题？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0005]",
+            "说明书[0002]-[0003]",
+            "摘要"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q20",
+          "type": "background",
+          "question": "钛白粉的生产工艺有哪两种路线？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0002]-[0003]",
+            "说明书[0041]-[0043]",
+            "说明书[0020]-[0022]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q21",
+          "type": "background",
+          "question": "本发明属于什么技术领域？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0001]",
+            "摘要",
+            "说明书[0005]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q22",
+          "type": "background",
+          "question": "本发明有哪些有益效果？",
+          "first_relevant_rank": 1,
+          "top3": [
+            "说明书[0020]-[0022]",
+            "说明书[0002]-[0003]",
+            "说明书[0005]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q23",
+          "type": "paraphrase",
+          "question": "为什么加入抗氧化剂？起什么作用？",
+          "first_relevant_rank": 6,
+          "top3": [
+            "说明书[0002]-[0003]",
+            "说明书[0026]-[0029]",
+            "说明书[0031]-[0034]"
+          ],
+          "mode_used": "bm25"
+        },
+        {
+          "id": "q24",
+          "type": "paraphrase",
+          "question": "怎样避免包膜时颗粒结块？",
+          "first_relevant_rank": 3,
+          "top3": [
+            "说明书[0005]",
+            "说明书[0002]-[0003]",
+            "说明书[0020]-[0022]"
+          ],
+          "mode_used": "bm25"
+        }
+      ]
+    }
+  }
+}

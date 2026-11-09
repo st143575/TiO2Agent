@@ -100,7 +100,7 @@ class Settings(BaseSettings):
     # reject the field).
     extract_llm_reasoning_effort: str | None = "none"
     extract_llm_temperature: float = Field(0.0, ge=0, le=2)
-    extract_llm_max_tokens: int = Field(8192, ge=256)    # room for a reasoning model's thinking
+    extract_llm_max_tokens: int = Field(4096, ge=256)    # room for a reasoning model's thinking
     extract_llm_timeout_s: float = Field(300.0, gt=0)
     # Stop asking the LLM about a document after this many failed requests in a row
     # (the rest is extracted by the rules in hybrid mode).
