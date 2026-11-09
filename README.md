@@ -33,6 +33,10 @@ tests/                 单元测试与集成测试（含大模型、向量、OCR
 
 ## 系统架构
 
+<div align="center">
+  <img src="architecture.png" alt="system_architecture" width=100%/>
+</div>
+
 - [OCR](docs/ocr.md)
 - [切块与检索](docs/retrieval.md)
 - [结构化抽取](docs/extraction.md)（规则、大模型、合并）
