@@ -37,12 +37,6 @@ tests/                 单元测试与集成测试（含大模型、向量、OCR
   <img src="architecture.png" alt="system_architecture" width=100%/>
 </div>
 
-- [OCR](docs/ocr.md)
-- [切块与检索](docs/retrieval.md)
-- [结构化抽取](docs/extraction.md)（规则、大模型、合并）
-- [Agent](docs/agent.md)
-- [部署](docs/deployment.md)
-
 数据处理流程：
 
 1. **导入**：原文档（如：一种高耐候钛白粉及制备方法.pdf）保存在 `data/samples/` 目录下，上传后先返回 `202`，再在后台依次执行后续阶段。每个阶段的中间结果都保存在 `data/processed/{id}/` 下，可以单独查看和重跑。
