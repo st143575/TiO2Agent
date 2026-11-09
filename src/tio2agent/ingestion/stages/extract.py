@@ -7,6 +7,7 @@ Skipped (and old facts removed) when the upload set ``extract_facts=false``.
 
 import json
 import logging
+from collections.abc import Mapping
 
 from tio2agent.domain import DocumentStatus, StructuredDocument
 from tio2agent.ingestion.extraction import FactExtractor, extract_facts, get_extractor
@@ -21,9 +22,15 @@ FACTS_FILE = "facts.json"
 class ExtractStage:
     status = DocumentStatus.EXTRACTING
 
-    def __init__(self, repo: FactRepository, extractor: FactExtractor | None = None) -> None:
+    def __init__(
+        self,
+        repo: FactRepository,
+        extractor: FactExtractor | None = None,
+        extractors: Mapping[str, FactExtractor] | None = None,
+    ) -> None:
         self.repo = repo
-        self.extractor = extractor  # None: choose by document type
+        self.extractor = extractor
+        self.extractors = extractors
 
     def run(self, ctx: IngestionContext) -> None:
         # If fact extraction is not enabled, delete any existing facts and return None.
@@ -35,7 +42,7 @@ class ExtractStage:
         if structure is None:
             raise StageError("缺少结构识别结果，无法抽取", code="EXTRACT_NO_STRUCTURE")
 
-        extractor = self.extractor or get_extractor(structure.doc_type)
+        extractor = self.extractor or get_extractor(structure.doc_type, self.extractors)
         # If no extractor is found for the document type, delete any existing facts and return None.
         if extractor is None:
             logger.info("document %s: no extractor for doc_type=%s", ctx.record.id, structure.doc_type)
@@ -64,5 +71,10 @@ class ExtractStage:
             encoding="utf-8",
         )
         logger.info(
-            "document %s: %d facts by %s, %d issues", ctx.record.id, len(result.facts), extractor.name, len(result.issues)
+            "document %s: %d facts by %s, %d issues %s", 
+            ctx.record.id, 
+            len(result.facts), 
+            extractor.name,
+            len(result.issues), 
+            result.stats or "",
         )

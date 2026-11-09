@@ -15,12 +15,13 @@ from tio2agent.agent import AgentService, SessionStore
 from tio2agent.api.errors import register_exception_handlers
 from tio2agent.api.middleware import UploadSizeLimitMiddleware
 from tio2agent.api.routes import agent, documents, facts, health, search
-from tio2agent.config import Settings, get_settings
+from tio2agent.config import ExtractBackend, Settings, get_settings
 from tio2agent.ingestion import DocumentService, IngestionPipeline, IngestionRunner
 from tio2agent.ingestion.chunking import ChunkingOptions
+from tio2agent.ingestion.extraction import build_extractors
 from tio2agent.ingestion.ocr import OcrEngine, build_ocr_engine
 from tio2agent.ingestion.stages import default_stages
-from tio2agent.llm import ChatModel, build_chat_model
+from tio2agent.llm import ChatModel, build_chat_model, build_extraction_model
 from tio2agent.retrieval import Embedder, Reranker, SearchService, build_embedder, build_reranker
 from tio2agent.storage import ChunkRepository, DocumentRepository, FactRepository, FileStore
 
@@ -53,6 +54,16 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     chunk_repo = ChunkRepository(settings.db_path)
     fact_repo = FactRepository(settings.db_path)
 
+    extraction_model: ChatModel | None = app.state.extraction_model_override
+    if extraction_model is None and settings.extract_backend is not ExtractBackend.RULES:
+        extraction_model = build_extraction_model(settings)
+    extractors = build_extractors(settings.extract_backend, extraction_model, max_failures=settings.extract_llm_max_failures)
+    logger.info(
+        "fact extraction (patents): %s%s",
+        extractors["patent"].name,
+        f" with {extraction_model.model}" if extraction_model and extractors["patent"].name != "patent_rules" else "",
+    )
+
     pipeline = IngestionPipeline(
         repo,
         raw_path_for=file_store.path_for,
@@ -63,6 +74,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             embedder=embedder,
             chunking=ChunkingOptions(max_chars=settings.chunk_max_chars),
             fact_repo=fact_repo,
+            extractors=extractors,
         ),
     )
     runner = IngestionRunner(pipeline, max_workers=settings.ingest_workers)
@@ -116,16 +128,22 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         sessions.close()
         if chat_model is not None:
             chat_model.close()
+        if extraction_model is not None:
+            extraction_model.close()
 
 
 def create_app(
-    settings: Settings | None = None, 
-    *, 
-    ocr_engine: OcrEngine | None = None, 
+    settings: Settings | None = None,
+    *,
+    ocr_engine: OcrEngine | None = None,
     embedder: Embedder | None = None,
     reranker: Reranker | None = None,
     chat_model: ChatModel | None = None,
+    extraction_model: ChatModel | None = None,
 ) -> FastAPI:
+    """
+    Build the app.
+    """
     settings = settings or get_settings()
     app = FastAPI(
         title=settings.app_name,
@@ -138,6 +156,7 @@ def create_app(
     app.state.embedder_override = embedder
     app.state.reranker_override = reranker
     app.state.chat_model_override = chat_model
+    app.state.extraction_model_override = extraction_model
 
     app.add_middleware(
         UploadSizeLimitMiddleware,

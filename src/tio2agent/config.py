@@ -29,6 +29,12 @@ class LlmBackend(StrEnum):
     OPENAI_COMPATIBLE = "openai_compatible"  # any /v1/chat/completions endpoint with tool calling
 
 
+class ExtractBackend(StrEnum):
+    RULES = "rules"    # rule-based patent extractor only (no LLM needed)
+    LLM = "llm"        # LLM reads claims and examples; tables are still read from cells
+    HYBRID = "hybrid"  # both; facts found by both are merged, the LLM fixes names
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="TIO2_", env_file=".env", extra="ignore")
 
@@ -83,6 +89,22 @@ class Settings(BaseSettings):
     llm_temperature: float = Field(0.0, ge=0, le=2)
     llm_max_tokens: int = Field(2048, ge=64)
     llm_timeout_s: float = Field(120.0, gt=0)
+
+    # Fact extraction. llm / hybrid use the LLM above (TIO2_LLM_*), optionally with
+    # another model name; without an LLM they fall back to rules.
+    extract_backend: ExtractBackend = ExtractBackend.RULES
+    extract_llm_model: str | None = None                  # default: llm_model
+    # Sent as "reasoning_effort". "none" turns thinking off on Ollama (qwen3 etc.):
+    # extraction is copying, and qwen3 thinking at temperature 0 can repeat itself until
+    # max_tokens, which made every request time out. Empty: send nothing (for APIs that
+    # reject the field).
+    extract_llm_reasoning_effort: str | None = "none"
+    extract_llm_temperature: float = Field(0.0, ge=0, le=2)
+    extract_llm_max_tokens: int = Field(8192, ge=256)    # room for a reasoning model's thinking
+    extract_llm_timeout_s: float = Field(300.0, gt=0)
+    # Stop asking the LLM about a document after this many failed requests in a row
+    # (the rest is extracted by the rules in hybrid mode).
+    extract_llm_max_failures: int = Field(2, ge=1)
 
     # Agent loop
     agent_max_steps: int = Field(8, ge=1, le=20)        # LLM calls per question

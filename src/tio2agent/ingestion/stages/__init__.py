@@ -4,7 +4,9 @@ Add new stages (structuring, indexing, extracting) to ``default_stages`` as they
 are implemented; each one only needs a ``status`` and a ``run(ctx)`` method.
 """
 
+from collections.abc import Mapping
 from tio2agent.ingestion.chunking import ChunkingOptions
+from tio2agent.ingestion.extraction import FactExtractor
 from tio2agent.ingestion.ocr import OcrEngine
 from tio2agent.ingestion.pipeline import Stage
 from tio2agent.ingestion.stages.extract import ExtractStage
@@ -24,6 +26,7 @@ def default_stages(
     embedder: Embedder | None = None,
     chunking: ChunkingOptions | None = None,
     fact_repo: FactRepository | None = None,
+    extractors: Mapping[str, FactExtractor] | None = None,
 ) -> list[Stage]:
     # return [
     #     ParseStage(),           # DocumentStatus.PARSING
@@ -42,7 +45,7 @@ def default_stages(
         stages.append(IndexStage(repo=chunk_repo, embedder=embedder, options=chunking))
     
     if fact_repo is not None:
-        stages.append(ExtractStage(repo=fact_repo))
+        stages.append(ExtractStage(repo=fact_repo, extractors=extractors))
     
     return stages
 

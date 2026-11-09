@@ -24,6 +24,7 @@ import re
 
 from tio2agent.domain import ClaimCategory, EmbodimentKind, FactKind, StructuredDocument
 from tio2agent.ingestion.extraction.base import ExtractionResult, FactBuilder, Source
+from tio2agent.ingestion.structure.normalize import STEP_MARKER, step_id
 from tio2agent.ingestion.extraction.quantities import (
     NUMBER,
     QUANTITY,
@@ -61,7 +62,7 @@ _PARAMS: list[tuple[str, re.Pattern[str]]] = [
     ("研磨时间", re.compile(rf"研磨(?:时间为)?\s*{QUANTITY}\s*(?P<unit>分钟|小时|min|h)")),
     ("pH", re.compile(rf"pH值?(?:调节至|调至|调节为|控制在|为)\s*{QUANTITY}")),
 ]
-_STEP_LINE = re.compile(r"^(S\d+)\s*[、.．:：]", re.MULTILINE)
+_STEP_LINE = re.compile(STEP_MARKER.pattern.lstrip("^"), re.MULTILINE)  # "S1、", "步骤1：", "第一步，"
 
 # --- options -------------------------------------------------------------------------
 _OPTION = re.compile(rf"所述(?P<name>[{_CJK}]{{2,8}}?)(?:为|选自|是)(?P<values>.+)$")
@@ -108,7 +109,7 @@ class PatentRuleExtractor:
 
         labels = {e.label: e.id for e in doc.embodiments}
         for table in doc.tables:
-            _table_results(builder, table, labels)
+            table_results(builder, table, labels)
 
         return ExtractionResult(facts=builder.facts, issues=builder.rejected)
 
@@ -117,14 +118,18 @@ class PatentRuleExtractor:
 
 
 def _split_steps(source: Source) -> list[Source]:
-    """A method claim lists its steps as lines "S1、…"; one Source per step."""
-    starts = list(_STEP_LINE.finditer(source.text))
+    """
+    A method claim lists its steps as lines ("S1、…", "步骤1：…"); one Source per step, with the step normalized to "S1".
+    """
+    text = source.text
+    starts = [m for m in _STEP_LINE.finditer(text) if m.start() == 0 or text[m.start() - 1] == "\n"]
     if not starts:
         return [source]
     out = []
     for i, m in enumerate(starts):
-        end = starts[i + 1].start() if i + 1 < len(starts) else len(source.text)
-        out.append(Source(**{**source.__dict__, "text": source.text[m.start():end].strip(), "step": m.group(1)}))
+        end = starts[i + 1].start() if i + 1 < len(starts) else len(text)
+        part = text[m.start():end].strip()
+        out.append(Source(**{**source.__dict__, "text": part, "step": step_id(part)}))
     return out
 
 
@@ -198,7 +203,11 @@ def _options(b: FactBuilder, source: Source) -> None:
         )
 
 
-def _table_results(b: FactBuilder, table, labels: dict[str, str]) -> None:
+def table_results(b: FactBuilder, table, labels: dict[str, str]) -> None:
+    """
+    Results from a table: header "实施例N" x row name -> one fact per cell. 
+    Also used by the LLM extractor, as table cells are already structured.
+    """
     if len(table.rows) < 2:
         return
     header = table.rows[0]

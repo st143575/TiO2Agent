@@ -31,9 +31,11 @@ class OpenAICompatibleChatModel:
         max_tokens: int = 2048,
         timeout_s: float = 120.0,
         max_retries: int = 1,
+        extra_body: dict[str, Any] | None = None,
         transport: httpx.BaseTransport | None = None,
     ) -> None:
         self.model = model
+        self.extra_body = extra_body or {}  # sent with every request, e.g. {"reasoning_effort": "none"}
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.max_retries = max_retries
@@ -60,6 +62,7 @@ class OpenAICompatibleChatModel:
             "messages": [_encode_message(m) for m in messages],
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
+            **self.extra_body,
         }
         if tools:
             body["tools"] = [

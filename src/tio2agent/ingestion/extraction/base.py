@@ -1,7 +1,7 @@
 """Extractor interface and the helper that builds traceable facts."""
 
 from dataclasses import dataclass, field
-from typing import Protocol
+from typing import Any, Protocol
 
 from tio2agent.domain import Fact, FactKind, StructuredDocument
 
@@ -14,9 +14,20 @@ class ExtractionIssue:
 
 
 @dataclass
+class Rejection:
+    """A fact proposed by an LLM that failed verification (kept for evaluation)."""
+
+    subject_label: str
+    reason: str
+    item: dict[str, Any]
+
+
+@dataclass
 class ExtractionResult:
     facts: list[Fact] = field(default_factory=list)
     issues: list[ExtractionIssue] = field(default_factory=list)
+    rejected: list[Rejection] = field(default_factory=list)
+    stats: dict[str, Any] = field(default_factory=dict)  # e.g. LLM calls and tokens
 
 
 class FactExtractor(Protocol):
